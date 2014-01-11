@@ -1,71 +1,47 @@
 #!/usr/bin/env racket
 #lang racket
+
+(define (read-all file-name)
+  (let ([in (open-input-file file-name)])
+    (let loop ([buffer ""])
+      (let ([c (read-string 1 in)])
+        (if (eof-object? c)
+          (begin 
+            (close-input-port in)
+            buffer)
+          (loop (string-append buffer c)))))))
+
+(define (write-file str filename)
+  (let ([out (open-output-file "output.txt" #:exists 'append)])
+    (begin
+      (write str out)
+      (close-output-port out))))
+
+(define (-main)
+  (if (= 0 (vector-length (current-command-line-arguments)))
+    (begin 
+      (displayln "no argment")
+      (read-all "sample.rkt"))
+    (read-all (vector-ref (current-command-line-arguments) 0))))
+
+(define (tokenize r tokening)
+  (cond
+    [(string=? r "(")
+       (list null (list "("))]
+    [(string=? r ")")
+       (if (eq? tokening null)
+         (list null (list ")"))
+         (list null (list tokening ")")))]
+    [(or (string=? r " ") (string=? r "\n"))
+       (if (eq? tokening null)
+         (list null null)
+         (list null (list tokening)))]
+    [else
+       (if (eq? tokening null)
+         (list r null)
+         (list (string-append tokening r) null))]))
+
+(-main)
+
 (require test-engine/racket-tests)
-
-(define in (open-input-file "sample.rkt"))
-(read-string 100 in)
-(close-input-port in)
-
-(define out (open-output-file "output.txt" #:exists 'append))
-(write "hello world" out)
-(close-output-port out)
-
-(current-command-line-arguments)
-
-(define )
-
-(define (eval str)
-  1)
-
 (test)
-
-;(define (tokenize r tokening)
-;  (cond
-;    [(string=? r "(")
-;       (list null (list "("))]
-;    [(string=? r ")")
-;       (if (eq? tokening null)
-;         (list null (list ")"))
-;         (list null (list tokening ")")))]
-;    [(or (string=? r " ") (string=? r "\n"))
-;       (if (eq? tokening null)
-;         (list null null)
-;         (list null (list tokening)))]
-;    [else
-;       (if (eq? tokening null)
-;         (list r null)
-;         (list (string-append tokening r) null))]))
-;
-;(define (atom token)
-;  (if (string->number token)
-;    (string->number token)
-;    (string->symbol token)))
-;
-;
-;(define (eval-n token env)
-;  (cond
-;    ([]
-;     )
-;    )
-;  )
-;
-;(define (eval w)
-;  (displayln w))
-;
-;(define (serialize base add)
-;  (if (eq? add null)
-;    base
-;    (begin
-;      (eval (first add))
-;      (serialize (cons base (cons (first add) null)) (rest add)))))
-;
-;(define (all-read in tokening)
-;  (let [(r (read-string 1 in))]
-;    (if (eof-object? r)
-;      true
-;      (let [(tokened (tokenize r tokening))]
-;        (if (eq? (second tokened) null)
-;          null
-;          (serialize null (second tokened)))
-;        (all-read in (first tokened))))))
-;(all-read in null)
