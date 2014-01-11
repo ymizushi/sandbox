@@ -26,16 +26,6 @@
       (read-all "sample.rkt"))
     (read-all (vector-ref (current-command-line-arguments) 0))))
 
-(define (parse str)
-  null
-  )
-
-(define (atom token)
-  null)
-
-(define (token char)
-  null)
-
 (define (space? char)
   (if (or (char-whitespace? char) (char=? #\tab char))
     true
@@ -47,6 +37,11 @@
         (char=? #\) c))
     true
     false))
+
+(define (empty? str)
+  (if (< 0 (string-length str))
+    false
+    true))
 
 (define (tokenize str)
   (let ([ip (open-input-string str)])
@@ -61,18 +56,44 @@
             [(space? c)
                (if (space? before)
                  (loop "" c tokens)
-                 (loop "" ;tokening
-                       c ;before
-                       (append tokens (list tokening))))] ;tokens
+                 (loop "" c (if (empty? tokening)
+                              tokens
+                              (append tokens (list tokening)))))]
             [(parentheses? c)
-               (loop "" c (append tokens (list (string c))))]
+               (loop ""
+                     c
+                     (append tokens (if (empty? tokening)
+                                      (list (string c))
+                                      (list tokening (string c)))))]
             [else
                (loop (string-append tokening (string c)) c tokens)]))))))
+
+(define (parse str)
+  null)
+
+(define (atom token)
+  null)
+
+(define (find env token)
+  null)
+
+(struct Symbol (str))
+
+(define (eval token env)
+  (cond
+    [(Symbol? token) (find env token)]
+    [(not (list? token)) token]
+    [(= "if" (first token)) token]
+    [else true true] ; ここまで途中
+    ))
 
 ;(-main)
 
 (require test-engine/racket-tests)
 
 (check-expect true (parentheses? #\( ))
-(check-expect (tokenize "(define hoge 1 )") (list "(" "define" "hoge" "1" ")") )
+(check-expect (tokenize "(define hoge 1111)") (list "(" "define" "hoge" "1111" ")") )
+(check-expect (tokenize "( define hoge 1111 )") (list "(" "define" "hoge" "1111" ")") )
+(check-expect (tokenize " ( define hoge 1111 )  ") (list "(" "define" "hoge" "1111" ")") )
+(check-expect (tokenize " (define hoge 1111)") (list "(" "define" "hoge" "1111" ")") )
 (test)
