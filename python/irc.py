@@ -3,7 +3,7 @@ import socket, string
 #some user data, change as per your taste
 SERVER = 'chat.freenode.net'
 PORT = 6667
-NICKNAME = 'test_py'
+NICKNAME = 'test-bot'
 CHANNEL = '#testymizushi'
 
 #open a socket to handle the connection
@@ -15,6 +15,7 @@ def irc_conn():
 
 #simple function to send data through the socket
 def send_data(command):
+    print command
     IRC.send(command + '\n')
 
 #join the channel
@@ -32,14 +33,9 @@ join(CHANNEL)
 
 while (1):
     buffer = IRC.recv(1024)
-    print buffer
     msg = string.split(buffer)
     print msg
-    # if msg[0] == "PING": #check if server have sent ping command
-    #     send_data("PONG %s" % msg[1]) #answer with pong as per RFC 1459
-    #     if msg [1] == 'PRIVMSG' and msg[2] == NICKNAME:
-    #         filetxt = open('/tmp/msg.txt', 'a+') #open an arbitrary file to store the messages
-    #         nick_name = msg[0][:string.find(msg[0],"!")] #if a private message is sent to you catch it
-    #         message = ' '.join(msg[3:])
-    #         filetxt.write(string.lstrip(nick_name, ':') + ' -> ' + string.lstrip(message, ':') + '\n') #write to the file
-    #         filetxt.flush() #don't wait for next message, write it now!
+    if msg[0] == "PING": #check if server have sent ping command
+        send_data("PONG %s" % msg[1]) #answer with pong as per RFC 1459
+    if msg[1] == 'PRIVMSG':
+        send_data("PRIVMSG #testymizushi HOGE")
