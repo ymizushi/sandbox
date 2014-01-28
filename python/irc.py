@@ -8,15 +8,20 @@ sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
 sys.stdin  = codecs.getreader('utf_8')(sys.stdin)
 import socket, string
 
+from threading import Thread, Event, Lock
+
+
 SERVER = 'ymizushi.info'
 PORT = 6667
 NICKNAME = 'test-bot'
 CHANNEL = '#ymizushi'
 PASSWORD = 'kongolove'
 
-AND_INPUT_TEMPLATE = [u'デイリー', u'やるか', u'やるよ', '来て', 'きて']
+AND_INPUT_TEMPLATE = [u'やる', '来て', 'きて']
 
 OUTPUT_TEMPLATE = u'デイリースタンドアップの時間です > 各位'
+
+CONFIRM_MESSAGE = u'デイリーやりますですか！？'
 
 #open a socket to handle the connection
 IRC = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -43,6 +48,27 @@ irc_conn()
 login(NICKNAME)
 join(CHANNEL)
 
+
+LIMIT_TIME = '144500'
+
+def now_time():
+    return time.strftime("%H%M%S")
+
+
+
+event = Event()
+class TimeThread(Thread):
+    def run(self):
+        while True:
+            time.sleep(1.0)
+            if now_time() == LIMIT_TIME:
+                confirm_message = "PRIVMSG %s :%s" % (CHANNEL, CONFIRM_MESSAGE)
+                encoded_confirm_message = confirm_message.encode('utf-8')
+                send_data(encoded_confirm_message)
+time_thread = TimeThread()
+time_thread.start()
+
+
 while (1):
     buffer = IRC.recv(1024)
     msg = string.split(buffer)
@@ -54,8 +80,8 @@ while (1):
         for temp in AND_INPUT_TEMPLATE:
             if re.search(temp, message):
                 count += 1
-        if count >= 2:
-            if 14 <= int(time.strftime("%H")) <= 16: 
+        if count >= 1:
+            if 144400 <= int(now_time()) <= 160000: 
                 output = "PRIVMSG %s :%s" % (CHANNEL, OUTPUT_TEMPLATE)
                 hoge = output.encode('utf-8')
                 send_data(hoge)
