@@ -49,7 +49,7 @@ login(NICKNAME)
 join(CHANNEL)
 
 
-LIMIT_TIME = '144500'
+LIMIT_TIME = '042100'
 
 def now_time():
     return time.strftime("%H%M%S")
@@ -81,7 +81,8 @@ while (1):
             if re.search(temp, message):
                 count += 1
         if count >= 1:
-            if 144400 <= int(now_time()) <= 160000: 
+            print int(now_time())
+            if 40000 <= int(now_time()) <= 160000: 
                 output = "PRIVMSG %s :%s" % (CHANNEL, OUTPUT_TEMPLATE)
                 hoge = output.encode('utf-8')
                 send_data(hoge)
