@@ -21,14 +21,14 @@ REAL_NAME = u'yuta_mizushima'
 
 class Time:
     @classmethod
-    def now_time(cls):
+    def now(cls):
         return cls(int(time.strftime("%H")), int(time.strftime("%M")))
 
     def __init__(self, hour, minute):
         if not (0 <= hour <= 24 and 0 <= minute <= 60):
             raise Exception('invalidate datetime')
-        self.hour
-        self.minute
+        self.hour = hour
+        self.minute = minute
 
     def add(self, hour=0, minute=0):
         if self.minute + minute >= 60:
@@ -46,6 +46,8 @@ class Time:
         return False
     def equal(self, timer):
         return self.hour == timer.hour and self.minute == timer.minute
+
+global LIMIT_TIME
 LIMIT_TIME = Time(14,45)
 
 class TimeThread(Thread):
@@ -57,16 +59,8 @@ class TimeThread(Thread):
             time.sleep(1.0)
             self.execute()
     def execute(self):
-        if Time.now_time().equal(LIMIT_TIME):
-            self.ircsend_private_message(CONFIRM_MESSAGE)
-
-import unittest
-class TestTime(unittest.TestCase):
-    def test_add(self):
-        timer = Time(1,5)
-        timer.add(1,5)
-        self.assertEqual(2, timer.hour)
-        self.assertEqual(10, timer.minute)
+        if Time.now().equal(LIMIT_TIME):
+            self.irc.send_private_message(CONFIRM_MESSAGE)
 
 class Irc:
     def __init__(self):
@@ -120,5 +114,4 @@ if __name__ == '__main__':
             if metched and re.search(NICKNAME, message):
                 print message
                 irc.send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + metched.group(0))
-                global LIMIT_TIME
                 LIMIT_TIME= metched.group(0)
