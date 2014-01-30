@@ -5,6 +5,7 @@ import codecs
 import re
 import time
 import socket, string
+import copy
 from threading import Thread
 sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
 sys.stdin  = codecs.getreader('utf_8')(sys.stdin)
@@ -15,25 +16,36 @@ NICKNAME = 'kongo-bot'
 CHANNEL = '#ymizushi'
 PASSWORD = 'kongolove'
 TEMPLATE_LIST = [u'やる', '来て', 'きて']
-CONFIRM_MESSAGE = u'Dailyやるカナー？'
-OUTPUT_SENTENCE = u'デイリーステンダップの時間ネー > 各位'
+CONFIRM_MESSAGE = u'Dailyやるｶﾅｰ？'
+OUTPUT_SENTENCE = u'ﾃﾞｲﾘ-ｽﾃﾝﾀﾞｯﾌﾟの時間ﾈー > 各位'
 REAL_NAME = u'yuta_mizushima'
+
+global MESSAGE_MAP
+MESSAGE_MAP = [
+  (u'exit' ,u'ｵﾂｶﾚﾈｰ'),
+]
 
 class Time:
     @classmethod
     def now(cls):
-        return cls(int(time.strftime("%H")), int(time.strftime("%M")))
+        return cls(int(time.strftime("%H")), int(time.strftime("%M")), int(time.strftime("%S")))
 
-    def __init__(self, hour, minute):
+    def __init__(self, hour, minute, second=0):
         if not (0 <= hour <= 24 and 0 <= minute <= 60):
             raise Exception('invalidate datetime')
         self.hour = hour
         self.minute = minute
+        self.second = second
 
-    def add(self, hour=0, minute=0):
+    def add(self, hour=0, minute=0, second=0):
+        if self.second + second >= 60:
+            self.minute += 1
+            self.second += second - 60
+        else:
+            self.second += second
         if self.minute + minute >= 60:
             self.hour += 1
-            self.minute = self.minute + minute - 60
+            self.minute += minute - 60
         else:
             self.minute += minute
         self.hour += hour
@@ -43,12 +55,14 @@ class Time:
             return True
         if self.minute > timer.minute:
             return True
+        if self.second > timer.second:
+            return True
         return False
     def equal(self, timer):
-        return self.hour == timer.hour and self.minute == timer.minute
+        return self.hour == timer.hour and self.minute == timer.minute and self.second == timer.second
 
-global LIMIT_TIME
-LIMIT_TIME = Time(14,45)
+global DAILY_TIME
+DAILY_TIME = Time(0,30)
 
 class TimeThread(Thread):
     def __init__(self, irc):
@@ -59,7 +73,7 @@ class TimeThread(Thread):
             time.sleep(1.0)
             self.execute()
     def execute(self):
-        if Time.now().equal(LIMIT_TIME):
+        if Time.now().equal(DAILY_TIME):
             self.irc.send_private_message(CONFIRM_MESSAGE)
 
 class Irc:
@@ -106,12 +120,19 @@ if __name__ == '__main__':
             for temp in TEMPLATE_LIST:
                 if re.search(temp, message):
                     count += 1
+
+            for message_tuple in MESSAGE_MAP:
+                if re.search(message_tuple[0], message):
+                    irc.send_private_message(message_tuple[1])
             if count >= 1:
-                # if LIMIT_TIME <= int(now_time()) <= LIMIT_TIME+600: 
-                if True: 
+                limit_time = copy.deepcopy(DAILY_TIME)
+                limit_time.add(1,0)
+                now_time = Time.now()
+                if now_time.is_later_than(DAILY_TIME) and limit_time.is_later_than(now_time): 
                     irc.send_private_message(OUTPUT_SENTENCE)
-            metched = re.search("\d\d\d\d\d\d", message)
-            if metched and re.search(NICKNAME, message):
-                print message
-                irc.send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + metched.group(0))
-                LIMIT_TIME= metched.group(0)
+
+            matched = re.search('\d\d\d\d', message)
+            if matched and re.search(NICKNAME, message):
+                matched_word = matched.group(0)
+                irc.send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + matched_word)
+                DAILY_TIME= Time(int(matched_word[0:2]), int(matched_word[2:4]))
