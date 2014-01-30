@@ -5,7 +5,7 @@ import codecs
 import re
 import time
 import socket, string
-from threading import Thread, Event, Lock
+from threading import Thread
 sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
 sys.stdin  = codecs.getreader('utf_8')(sys.stdin)
 
@@ -18,41 +18,96 @@ TEMPLATE_LIST = [u'やる', '来て', 'きて']
 CONFIRM_MESSAGE = u'Dailyやるカナー？'
 OUTPUT_SENTENCE = u'デイリーステンダップの時間ネー > 各位'
 REAL_NAME = u'yuta_mizushima'
-IRC = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-LIMIT_TIME = '025400'
 
-#open a connection with the server
-def irc_conn():
-    IRC.connect((SERVER, PORT))
+class Time:
+    @classmethod
+    def now_time(cls):
+        return cls(int(time.strftime("%H")), int(time.strftime("%M")))
 
-#simple function to send data through the socket
-def send_data(command):
-    IRC.send(command + '\n')
+    def __init__(self, hour, minute):
+        if not (0 <= hour <= 24 and 0 <= minute <= 60):
+            raise Exception('invalidate datetime')
+        self.hour
+        self.minute
 
-#join the channel
-def join(channel):
-    send_data("JOIN %s" % channel)
+    def add(self, hour=0, minute=0):
+        if self.minute + minute >= 60:
+            self.hour += 1
+            self.minute = self.minute + minute - 60
+        else:
+            self.minute += minute
+        self.hour += hour
 
-#send login data (customizable)
-def login(nickname, username='user', password=PASSWORD, realname=REAL_NAME, hostname=SERVER, servername=SERVER):
-    send_data("PASS %s " % (password))
-    send_data("USER %s %s %s %s" % (username, hostname, servername, realname))
-    send_data("NICK %s" % (nickname))
+    def is_later_than(self, timer):
+        if self.hour > timer.hour:
+            return True
+        if self.minute > timer.minute:
+            return True
+        return False
+    def equal(self, timer):
+        return self.hour == timer.hour and self.minute == timer.minute
+LIMIT_TIME = Time(14,45)
 
-def now_time():
-    return time.strftime("%H%M%S")
+class TimeThread(Thread):
+    def __init__(self, irc):
+        super(TimeThread, self).__init__()
+        self.irc = irc
+    def run(self):
+        while True:
+            time.sleep(1.0)
+            self.execute()
+    def execute(self):
+        if Time.now_time().equal(LIMIT_TIME):
+            self.ircsend_private_message(CONFIRM_MESSAGE)
 
-def main():
+import unittest
+class TestTime(unittest.TestCase):
+    def test_add(self):
+        timer = Time(1,5)
+        timer.add(1,5)
+        self.assertEqual(2, timer.hour)
+        self.assertEqual(10, timer.minute)
+
+class Irc:
+    def __init__(self):
+        self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        self._irc_conn()
+        self._login(NICKNAME)
+        self._join(CHANNEL)
+
+    def _irc_conn(self):
+        self.irc.connect((SERVER, PORT))
+
+    def _login(self, nickname, username='user', password=PASSWORD, realname=REAL_NAME, hostname=SERVER, servername=SERVER):
+        self.send_data("PASS %s " % (password))
+        self.send_data("USER %s %s %s %s" % (username, hostname, servername, realname))
+        self.send_data("NICK %s" % (nickname))
+
+    def _join(self, channel):
+        self.send_data("JOIN %s" % channel)
+
+    def send_data(self, command):
+        self.irc.send(command + '\n')
+
+    def send_private_message(self, message):
+        raw_message = "PRIVMSG %s :%s" % (CHANNEL, message)
+        encoded_message = raw_message.encode('utf-8')
+        self.send_data(encoded_message)
+
+
+if __name__ == '__main__':
+    irc = Irc()
+    time_thread = TimeThread(irc)
+    time_thread.start()
     while(True):
-        buffer = IRC.recv(1024)
-        print now_time()
+        buffer = irc.irc.recv(1024)
         msg = string.split(buffer)
         if msg[0] == "PING":
-            print msg
-            send_data("PONG %s" % (msg[1]))
+            irc.send_data("PONG %s" % (msg[1]))
         if msg[1] == 'PRIVMSG':
-            message = reduce(lambda x,y: x+''+y, msg[3:])
-            message = unicode(message,'utf-8')
+            message = unicode(reduce(lambda x, y : x+' '+y, msg[3:]), 'utf-8')
+
             count = 0
             for temp in TEMPLATE_LIST:
                 if re.search(temp, message):
@@ -60,32 +115,10 @@ def main():
             if count >= 1:
                 # if LIMIT_TIME <= int(now_time()) <= LIMIT_TIME+600: 
                 if True: 
-                    send_private_message(OUTPUT_SENTENCE)
-            print message
+                    irc.send_private_message(OUTPUT_SENTENCE)
             metched = re.search("\d\d\d\d\d\d", message)
             if metched and re.search(NICKNAME, message):
                 print message
-                send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + metched.group(0))
+                irc.send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + metched.group(0))
                 global LIMIT_TIME
                 LIMIT_TIME= metched.group(0)
-
-def send_private_message(message):
-    raw_message = "PRIVMSG %s :%s" % (CHANNEL, message)
-    encoded_message = raw_message.encode('utf-8')
-    send_data(encoded_message)
-
-irc_conn()
-login(NICKNAME)
-join(CHANNEL)
-
-class TimeThread(Thread):
-    def run(self):
-        while True:
-            time.sleep(1.0)
-            if now_time() == LIMIT_TIME:
-                send_private_message(CONFIRM_MESSAGE)
-time_thread = TimeThread()
-time_thread.start()
-
-main()
-
