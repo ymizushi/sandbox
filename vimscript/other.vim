@@ -35,8 +35,8 @@
 "echo v:version
 "execute 'echo  "hoge"'
 
-let s:line = getline(".")
-echo s:line
-let repl = substitute(line, '\a', "*", "g")
-call setline(".", repl)
+"let s:line = getline(".")
+"echo s:line
+"let repl = substitute(line, '\a', "*", "g")
+"call setline(".", repl)
 

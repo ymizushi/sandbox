@@ -15,12 +15,16 @@ class TestTime(unittest.TestCase):
         self.assertEqual(timer.minute, 5)
 
     def test_is_later_than(self):
-        timerFast  = Time(3, 3)
+        timerFast  = Time(4, 3)
         timerLater = Time(4, 5)
         self.assertTrue(timerLater.is_later_than(timerFast))
 
         timerFast = Time(4, 5)
         timerLater  = Time(5, 6)
+        self.assertTrue(timerLater.is_later_than(timerFast))
+
+        timerFast  = Time(4, 5)
+        timerLater = Time(5, 5)
         self.assertTrue(timerLater.is_later_than(timerFast))
 
     def test_equal(self):

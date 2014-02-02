@@ -16,7 +16,7 @@ NICKNAME = 'kongo-bot'
 CHANNEL = '#ymizushi'
 PASSWORD = 'kongolove'
 TEMPLATE_LIST = [u'やる', '来て', 'きて']
-CONFIRM_MESSAGE = u'Dailyやるｶﾅｰ？'
+CONFIRM_MESSAGE = u'Dailyやるｶﾅｰ？ > EE shiba Aban ymizushi'
 OUTPUT_SENTENCE = u'ﾃﾞｲﾘ-ｽﾃﾝﾀﾞｯﾌﾟの時間ﾈー > 各位'
 REAL_NAME = u'yuta_mizushima'
 
@@ -24,6 +24,12 @@ global MESSAGE_MAP
 MESSAGE_MAP = [
   (u'exit' ,u'ｵﾂｶﾚﾈｰ'),
 ]
+
+END_COMMAND = [u'死ね',u'しね', u'され', u'去れ', u'消えろ', u'用済み', u'うざい', u'ようずみ', u'落ちて', u'ストップ']
+END_MESSAGE = u'ｿﾝﾅ、ﾋﾄﾞｲｲ......'
+
+
+START_MESSAGE = u'ｼｬｷｰﾝ'
 
 class Time:
     @classmethod
@@ -62,7 +68,7 @@ class Time:
         return self.hour == timer.hour and self.minute == timer.minute and self.second == timer.second
 
 global DAILY_TIME
-DAILY_TIME = Time(0,30)
+DAILY_TIME = Time(14,45)
 
 class TimeThread(Thread):
     def __init__(self, irc):
@@ -107,12 +113,17 @@ class Irc:
 if __name__ == '__main__':
     irc = Irc()
     time_thread = TimeThread(irc)
+    time_thread.setDaemon(True)
     time_thread.start()
+    irc.send_private_message(START_MESSAGE)
     while(True):
         buffer = irc.irc.recv(1024)
         msg = string.split(buffer)
         if msg[0] == "PING":
-            irc.send_data("PONG %s" % (msg[1]))
+            if len(msg) > 1:
+                irc.send_data("PONG %s" % (msg[1]))
+            else:
+                irc.send_data("PONG")
         if msg[1] == 'PRIVMSG':
             message = unicode(reduce(lambda x, y : x+' '+y, msg[3:]), 'utf-8')
 
@@ -124,9 +135,14 @@ if __name__ == '__main__':
             for message_tuple in MESSAGE_MAP:
                 if re.search(message_tuple[0], message):
                     irc.send_private_message(message_tuple[1])
+            for command in END_COMMAND:
+                if re.search(command, message):
+                    irc.send_private_message(END_MESSAGE)
+                    sys.exit(u"Programは終了しました")
+
             if count >= 1:
                 limit_time = copy.deepcopy(DAILY_TIME)
-                limit_time.add(1,0)
+                limit_time.add(0,10)
                 now_time = Time.now()
                 if now_time.is_later_than(DAILY_TIME) and limit_time.is_later_than(now_time): 
                     irc.send_private_message(OUTPUT_SENTENCE)
