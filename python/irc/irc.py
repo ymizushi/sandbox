@@ -21,13 +21,10 @@ OUTPUT_SENTENCE = u'ﾃﾞｲﾘ-ｽﾃﾝﾀﾞｯﾌﾟの時間ﾈー > 各�
 REAL_NAME = u'yuta_mizushima'
 
 global MESSAGE_MAP
-MESSAGE_MAP = [
-  (u'exit' ,u'ｵﾂｶﾚﾈｰ'),
-]
+MESSAGE_MAP = [ (u'exit' ,u'ｵﾂｶﾚﾈｰ'), ]
 
-END_COMMAND = [u'死ね',u'しね', u'され', u'去れ', u'消えろ', u'用済み', u'うざい', u'ようずみ', u'落ちて', u'ストップ']
-END_MESSAGE = u'ｿﾝﾅ、ﾋﾄﾞｲｲ......'
-
+END_COMMAND = [u'おやすみ']
+END_MESSAGE = u'See you againﾈ......'
 
 START_MESSAGE = u'ｼｬｷｰﾝ'
 
@@ -109,7 +106,6 @@ class Irc:
         encoded_message = raw_message.encode('utf-8')
         self.send_data(encoded_message)
 
-
 if __name__ == '__main__':
     irc = Irc()
     time_thread = TimeThread(irc)
@@ -127,28 +123,29 @@ if __name__ == '__main__':
         if msg[1] == 'PRIVMSG':
             message = unicode(reduce(lambda x, y : x+' '+y, msg[3:]), 'utf-8')
 
-            count = 0
-            for temp in TEMPLATE_LIST:
-                if re.search(temp, message):
-                    count += 1
 
             for message_tuple in MESSAGE_MAP:
                 if re.search(message_tuple[0], message):
                     irc.send_private_message(message_tuple[1])
             for command in END_COMMAND:
-                if re.search(command, message):
+                if re.search(command, message) and re.search(NICKNAME, message):
                     irc.send_private_message(END_MESSAGE)
                     sys.exit(u"Programは終了しました")
 
-            if count >= 1:
-                limit_time = copy.deepcopy(DAILY_TIME)
-                limit_time.add(0,10)
-                now_time = Time.now()
-                if now_time.is_later_than(DAILY_TIME) and limit_time.is_later_than(now_time): 
-                    irc.send_private_message(OUTPUT_SENTENCE)
+
+            matched = re.search(u'やる', message)
+            if matched and re.search(NICKNAME, message):
+                matched_word = matched.group(0)
+                irc.send_private_message(OUTPUT_SENTENCE)
 
             matched = re.search('\d\d\d\d', message)
             if matched and re.search(NICKNAME, message):
                 matched_word = matched.group(0)
                 irc.send_private_message(u'ﾘｮｳｶｲﾈｰ > ' + matched_word)
                 DAILY_TIME= Time(int(matched_word[0:2]), int(matched_word[2:4]))
+
+            # limit_time = copy.deepcopy(DAILY_TIME)
+            # limit_time.add(0,10)
+            # now_time = Time.now()
+            # if now_time.is_later_than(DAILY_TIME) and limit_time.is_later_than(now_time): 
+            #     irc.send_private_message(OUTPUT_SENTENCE)
