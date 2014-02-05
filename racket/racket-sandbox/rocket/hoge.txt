@@ -1,0 +1,1 @@
+(define hoge (lambda (x) (+ x x)))
