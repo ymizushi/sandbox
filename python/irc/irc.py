@@ -5,7 +5,6 @@ import codecs
 import re
 import time
 import socket, string
-import copy
 from threading import Thread
 sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
 sys.stdin  = codecs.getreader('utf_8')(sys.stdin)
