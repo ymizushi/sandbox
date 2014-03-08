@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_JP_AUTHOR	HIGASHI Hirohito	/Twitter: @h_east/
+!_TAG_PROGRAM_JP_URL	http://hp.vector.co.jp/authors/VA025040/	//
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6b1J2	//
+-main	otonashi-clj/src/otonashi_clj/core.clj	/^(defn -main []$/;"	f
+-main	websocket-clj/src/websocket_clj/core.clj	/^(defn -main [& args]$/;"	f
+broadcast-channel	websocket-clj/src/websocket_clj/core.clj	/^(def broadcast-channel (channel))$/;"	d
+chat-handler	websocket-clj/src/websocket_clj/core.clj	/^(defn chat-handler [ch handshake]$/;"	f
+doremi	otonashi-clj/src/otonashi_clj/core.clj	/^(def doremi {:none 0$/;"	d
+foo	otonashi-clj/src/otonashi_clj/core.clj	/^(defn foo [freq]$/;"	f
+key-on	otonashi-clj/src/otonashi_clj/core.clj	/^(defn key-on [note]$/;"	f
+notes	otonashi-clj/src/otonashi_clj/core.clj	/^(def notes$/;"	d
+otonashi-clj.core	otonashi-clj/src/otonashi_clj/core.clj	/^(ns otonashi-clj.core)$/;"	n
+otonashi-clj.core-test	otonashi-clj/test/otonashi_clj/core_test.clj	/^(ns otonashi-clj.core-test$/;"	n
+play-jingle-bells	otonashi-clj/src/otonashi_clj/core.clj	/^(defn play-jingle-bells []$/;"	f
+play-notes	otonashi-clj/src/otonashi_clj/core.clj	/^(defn play-notes [notes]$/;"	f
+websocket-clj.core	websocket-clj/src/websocket_clj/core.clj	/^(ns websocket-clj.core$/;"	n
+websocket-clj.core-test	websocket-clj/test/websocket_clj/core_test.clj	/^(ns websocket-clj.core-test$/;"	n
