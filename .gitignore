@@ -1,3 +1,4 @@
 *.pyc
 tags
 .Ds_Store
+*.un~
