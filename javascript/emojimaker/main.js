@@ -1,6 +1,4 @@
-
 function moveImg() {
-
   pelement = document.getElementById("p_element");
 
   // document.body.p.appendChild(img);
@@ -32,7 +30,7 @@ function createImg() {
 function generate() {
   width = document.getElementById("width_button").value;
   height = document.getElementById("height_button").value;
-  pElement = document.getElementById("p_elemeent").value;
+  pElement = document.getElementById("p_element");
   console.log(pElement);
 
   img = createImg();
@@ -42,6 +40,8 @@ function generate() {
       var img = createImg();
       pElement.appendChild(img);
     }
+    var br = document.createElement("br")
+    pElement.appendChild(br);
   }
 }
 

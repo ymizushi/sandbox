@@ -1,24 +1,14 @@
 <html>
 <head>
-<title>クリックした位置に画像を表示する</title>
+<title>github絵文字メーカー</title>
 <script src="main.js"></script>
 </head>
 <body>
-<p id="p_element">
-    <img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><br>
-
-<img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><br>
-
-<img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><br>
-
-<img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":u55b6:" alt=":u55b6:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/u55b6.png" height="20" width="20" align="absmiddle"><img class="emoji" title=":arrow_up:" alt=":arrow_up:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/arrow_up.png" height="20" width="20" align="absmiddle">
-</p>
-
-
 <input id="width_button" type="number" name="width" value="5" />
 <input id="height_button" type="number" name="height" value="5" />
+<input id="generate_button" type="button" name="generate" value="生成" onclick="generate()" />
 
-<input id="generate_button" type="button" name="generate" value="生成" onclick="generate()">
+<p id="p_element"></p>
 
 </form>
 </body>
