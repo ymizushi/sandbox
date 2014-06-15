@@ -2,13 +2,13 @@
 <head>
 <title>github絵文字メーカー</title>
 <style>
-#p_element {
+#palette {
 	/*単なるスタイリング*/
-	width:500px; height:100px; margin:20px; background-color:#FF9966; border:1px solid #cc3333;
+	background-color:#FF9966; border:1px solid #cc3333;
 }
 #dropbox {
 	/*単なるスタイリング*/
-	width:500px; height:100px; margin:20px; background-color:#CCFF66; border:1px solid #00cc00;
+	background-color:#CCFF66; border:1px solid #00cc00;
 	/*以下はwebkit系ブラウザでドラッグ＆ドロップを動かすための指定（ブラウザのサポートが進めば、必要なくなると思われます）*/
 	-khtml-user-drag: element;
 }
@@ -19,11 +19,11 @@
 <input id="width_button" type="number" name="width" value="5" />
 <input id="height_button" type="number" name="height" value="5" />
 <input id="generate_button" type="button" name="generate" value="生成" onclick="generate()" />
-<div id="p_element">
-</div>
+<textarea id="generate_text" name="generate_text" value="" /></textarea>
 
-<div id="dropbox" ondragover="f_dragover(event)" ondrop="f_drop(event)">
-</div>
+<div id="palette"></div>
+
+<div id="dropbox"> </div>
 
 </body>
 </html>
