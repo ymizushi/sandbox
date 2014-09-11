@@ -2,3 +2,5 @@
 tags
 .Ds_Store
 *.un~
+node_modules
+npm-debug.log
