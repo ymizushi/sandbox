@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     const u_char *packet; /* The actual packet */
 
     dev = pcap_lookupdev(errbuf);
-    dev = "en1";
+    dev = "en0";
     if (dev == NULL) {
         fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
         return(2);
