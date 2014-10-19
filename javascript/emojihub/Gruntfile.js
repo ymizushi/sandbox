@@ -10,7 +10,6 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'public/js/lib/jquery/dist/jquery.js',
-          'public/js/lib/jquery-console/jquery.console.js',
           'public/js/build/emohub.js'
         ],
         options: {
@@ -51,5 +50,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   // デフォルトタスクの設定
   grunt.registerTask('default', ['concat', 'uglify']);
-  grunt.registerTask('dev', ['concat', 'jasmine']);
+  grunt.registerTask('dev', ['concat']);
 };

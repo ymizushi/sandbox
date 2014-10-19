@@ -10,14 +10,13 @@ function createBaseImg(id) {
   img.align="absmiddle";
   img.draggable="true";
   img.addEventListener("dragstart", f_dragstart)
-  console.log(img);
-  // img.setAttribute("ondragstart", "f_dragstart(event)");
   return img;
 }
 
 function createDropboxDiv(id) {
   var div = document.createElement("span");
   div.id = id;
+  div.addEventListener("dragstart", f_dragstart)
   div.addEventListener("dragover", f_dragover);
   // div.setAttribute("ondragover", "f_dragover(event)");
   div.addEventListener("drop", f_drop);
@@ -66,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function clickHandler (e) {
-  console.log("init");
   width = document.getElementById("width_button").value;
   height = document.getElementById("height_button").value;
 
@@ -78,7 +76,6 @@ function clickHandler (e) {
 }
 
 function f_dragstart(event){
-  console.log("drag start");
   event.dataTransfer.setData("text", event.target.id);
 }
 
@@ -101,7 +98,6 @@ function f_drop(event){
     if (childNode) {
       outputText += childNode.id;
     } else {
-    console.log("hoge");
       outputText += "\n";
     }
   }
