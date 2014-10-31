@@ -22,9 +22,11 @@
         value
         nil))))
 
+(def input ["(" "def" "hoge" "1"])
+
 (deftest test-Env []
   (testing "fnd"
     (is (= (fnd (Env. {:hoge (Token. "1")} nil) :hoge)
-           (Token. "1"))))) 
+           (Token. "1")))))
 
 (run-tests)
