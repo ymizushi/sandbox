@@ -24,9 +24,18 @@
 
 (def input ["(" "def" "hoge" "1"])
 
+(defn parse [tokens]
+  (for [t tokens]
+
+    )
+  )
+
+(defn tokenize [s] s)
+
+
 (deftest test-Env []
   (testing "fnd"
-    (is (= (fnd (Env. {:hoge (Token. "1")} nil) :hoge)
-           (Token. "1")))))
+    (let [env (Env. {:hoge (Token. "1")} nil)]
+      (is (= (.s (fnd env :hoge)) "1")))))
 
 (run-tests)
