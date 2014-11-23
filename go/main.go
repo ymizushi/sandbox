@@ -1,27 +1,11 @@
 package main
-import "fmt"
 
-type A struct {
-    a int
-    b string
-}
-
-type B struct {
-    A
-}
-
-func (self A) hoge() {
-    fmt.Println(self.a)
-}
-
-type C interface {
-    D() int
-}
+import "github.com/go-martini/martini"
 
 func main() {
-    a := A {a:1, b:"sato"}
-    a.hoge()
-
-    b := B{}
-    b.hoge()
+  m := martini.Classic()
+  m.Get("/", func() string {
+    return "satoshun sugoi"
+  })
+  m.Run()
 }

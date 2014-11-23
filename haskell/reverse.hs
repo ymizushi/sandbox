@@ -1,4 +1,4 @@
-rev ::  String -> String -> String
+rev :: String -> String -> String
 rev input output
   |input == "" = output
   |otherwise =  
