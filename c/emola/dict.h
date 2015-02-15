@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>       /* exit(  ) free(  ) malloc(  ) に必要 */
 #include <string.h>       /* strcpy(  ) strcmp(  ) に必要 */
 
