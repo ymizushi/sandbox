@@ -1,3 +1,5 @@
+(ns hoge)
+
 (defprotocol Evalable
   (evaluate [_ env]))
 
