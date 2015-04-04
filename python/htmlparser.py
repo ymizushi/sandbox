@@ -7,7 +7,7 @@ import re
 class TestMerge(unittest.TestCase):
     def test_solve(self):
         input    = 1
-        expected = "1" 
+        expected = "1"
         self.assertEqual(str(input), expected)
 
 class Element:

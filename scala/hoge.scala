@@ -1,22 +1,20 @@
-import java.util.{Date, Locale}
-import java.text.DateFormat
-import java.text.DateFormat._
-
-object Timer {
-  def oncePerSecond(callback: () => Unit) {
-    callback()
+class Piyo {
+  override def toString: String = {
+    "piyo"
   }
-  
-  def timeFlies()  {
-    println("time flies like an arrow...")
+  println()
+  def +() {
+
   }
 
-  def add(x: Integer): Integer =  {
-    x + x
-  }
-  
+}
+
+object Hoge {
   def main(args: Array[String]) {
-    // oncePerSecond(timeFlies)
-    // println(add(20))
+    val piyo: Piyo = new Piyo
+    println(piyo.toString)
+    println(1.+(2))
+    1.+(2).println
   }
 }
+
