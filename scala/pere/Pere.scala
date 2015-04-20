@@ -14,7 +14,7 @@ trait Element {
   def toString: String
 }
 
-object Piyo {
+object Pere {
   def main(args: Array[String]): Unit = {
     val commit = Commit(Tree(Seq(Blob("hoge"),Blob("piyo"), Tree(Seq(Blob("foo"))))))
     println(commit.toString)
