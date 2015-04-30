@@ -8,7 +8,7 @@ page.onConsoleMessage = function (msg) {
 page.open(url, function(status) {
   page.includeJs('http://code.jquery.com/jquery-1.9.1.min.js', function() {
      page.evaluate(function() {
-       jQuery.ajax({
+       var piyo = jQuery.ajax({
               url: 'http://imsingle.tv/search/turnout/q/2229/t/1/',
               cache : false,
               data: {
@@ -16,14 +16,14 @@ page.open(url, function(status) {
                   nh: '1'
               },
               success: function( data ) {
-                console.log(data);
+                console.log("fuga");
               },
               error: function( data ) {
-                console.log(data);
+                console.log("piyo");
               }
             });
-      })
-                console.log("hoge");
+            console.log(piyo['responseText']);
+      });
     phantom.exit();
   });
 });
