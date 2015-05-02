@@ -9,8 +9,8 @@ type exp = IntLit of int
   |Eq of exp * exp;;
 
 type value = 
-  | IntVal of int
-  | BoolVal of bool
+  |IntVal of int
+  |BoolVal of bool
 
 let rec eval1 e = 
   match e with
@@ -49,6 +49,13 @@ let rec eval2 e =
             |(IntVal(n1), IntVal(n2)) -> IntVal(n1/n2)
             |_ -> failwith "integer values expected"
         end
+    |If(e1, e2, e3) -> 
+        begin
+          match (eval2 e1) with
+            |BoolVal(true) ->  (eval2 e2)
+            |BoolVal(false) -> (eval2 e3)
+            |_ -> failwith "integer values expected"
+        end
     |_ -> failwith "unknown expression";;
 
 let print_intval value = match value with
@@ -66,3 +73,4 @@ print_intval (eval2 (Plus(IntLit 1,     IntLit 2)));;
 (*
   print_intval (eval2 (Plus(BoolLit true, BoolLit true)));;
 *)
+print_int 1
