@@ -51,7 +51,18 @@ let rec eval2 e =
         end
     |_ -> failwith "unknown expression";;
 
-let print_intval intval = 
-  match intval with
-    |IntVal(i) -> (print_int i)
-    | _ -> failwith "not intlit"
+let print_intval value = match value with
+    |IntVal(i) -> print_int i 
+    |BoolVal(true) -> print_int 1
+    |BoolVal(false) -> print_int 0;;
+
+print_intval (eval2 (Plus(IntLit 1,     IntLit 2)));;
+(*
+  print_intval (eval2 (Plus(IntLit 1,     BoolLit true)));;
+*)
+(*
+  print_intval (eval2 (Plus(BoolLit true, IntLit 2)));;
+*)
+(*
+  print_intval (eval2 (Plus(BoolLit true, BoolLit true)));;
+*)
