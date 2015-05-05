@@ -25,17 +25,9 @@ let rec eval2 e =
   match e with
     |IntLit(n) -> IntVal(n)
     |Plus(e1, e2) ->
-      begin
-        match (eval2 e1,eval2 e2) with
-          |(IntVal(n1), IntVal(n2)) -> IntVal(n1+n2)
-          |_ -> failwith "integer values expected"
-      end
+      binap 1 e1 e2
     |Times(e1, e2) -> 
-        begin
-          match (eval2 e1, eval2 e2) with
-            |(IntVal(n1), IntVal(n2)) -> IntVal(n1*n2)
-            |_ -> failwith "integer values expected"
-        end
+      binap 2 e1 e2
     |Div(e1, e2) -> 
         begin
           match (eval2 e1, eval2 e2) with
@@ -56,14 +48,32 @@ let rec eval2 e =
             |BoolVal(false) -> (eval2 e3)
             |_ -> failwith "integer values expected"
         end
-    |_ -> failwith "unknown expression";;
+    |_ -> failwith "unknown expression"
+and binap flag e1 e2 = 
+  match (eval2 e1, eval2 e2) with
+  |(IntVal(n1), IntVal(n2)) ->
+    if flag = 1 then IntVal(n1+n2)
+    else IntVal(n1*n2)
+  |_ -> failwith "integer values expected"
 
 let print_intval value = match value with
     |IntVal(i) -> print_int i 
     |BoolVal(true) -> print_int 1
     |BoolVal(false) -> print_int 0;;
 
-print_intval (eval2 (Plus(IntLit 1,     IntLit 2)));;
+let rec eval2b e =
+  let binop f e1 e2 = 
+    match (eval2b e1, eval2b e2) with
+    |(IntVal(n1), IntVal(n2)) -> IntVal(f n1 n2)
+    |_ -> failwith "integer values expected"
+  in
+  match e with 
+  |IntLit(n) -> IntVal(n)
+  |Plus(e1, e2) -> binop (+) e1 e2
+  |Times(e1, e2) -> binop ( * ) e1 e2
+  |_ -> failwith "unknown expression";;
+
+print_intval (eval2 (Plus(IntLit 2, IntLit 2)));;
 (*
   print_intval (eval2 (Plus(IntLit 1,     BoolLit true)));;
 *)
@@ -73,4 +83,3 @@ print_intval (eval2 (Plus(IntLit 1,     IntLit 2)));;
 (*
   print_intval (eval2 (Plus(BoolLit true, BoolLit true)));;
 *)
-print_int 1
