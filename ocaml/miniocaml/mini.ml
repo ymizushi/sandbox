@@ -66,12 +66,23 @@ let rec eval2b e =
     match (eval2b e1, eval2b e2) with
     |(IntVal(n1), IntVal(n2)) -> IntVal(f n1 n2)
     |_ -> failwith "integer values expected"
-  in
-  match e with 
-  |IntLit(n) -> IntVal(n)
-  |Plus(e1, e2) -> binop (+) e1 e2
-  |Times(e1, e2) -> binop ( * ) e1 e2
-  |_ -> failwith "unknown expression";;
+    in
+      match e with 
+      |IntLit(n) -> IntVal(n)
+      |Plus(e1, e2) -> binop (+) e1 e2
+      |Times(e1, e2) -> binop ( * ) e1 e2
+      |_ -> failwith "unknown expression";;
+
+let emptyenv () = []
+
+let ext env x v = (x,v) :: env
+
+let rec lookup x env =
+   match env with
+   | [] -> failwith ("unbound variable: " ^ x)
+   | (y,v)::tl -> if x=y then v 
+                  else lookup x tl 
+
 
 print_intval (eval2 (Plus(IntLit 2, IntLit 2)));;
 (*
