@@ -77,11 +77,13 @@ let emptyenv () = []
 
 let ext env x v = (x,v) :: env
 
+(*
 let rec lookup x env =
-   match env with
-   | [] -> failwith ("unbound variable: " ^ x)
-   | (y,v)::tl -> if x=y then v 
-                  else lookup x tl 
+  match env with
+     | [] -> failwith ("unbound variable: " ^ x)
+     | (y,v)::tl -> if x=y then v 
+    else lookup x tl 
+    *)
 
 
 print_intval (eval2 (Plus(IntLit 2, IntLit 2)));;
