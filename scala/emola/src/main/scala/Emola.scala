@@ -8,8 +8,10 @@ object Emola {
 
 case class Token(s: String)
 
-object class TokenReader {
-  def read(tokens: String):List[Token]
+object TokenReader {
+  def read(tokens: String):List[Token] {
+
+  }
 }
 
 object Parser {
@@ -24,15 +26,15 @@ case class Value[A](v: A) extends Expression {
   def eval: Value = this.v
 }
 
-case class Number extends Value
+class Number extends Value
 
-case class String extends Value
+class String extends Value
 
-case class Plus extends Expression(numbers: List[Number]) {
+case class Plus(numbers: List[Number]) extends Expression  {
   def eval: Value = this.numbers.sum
 }
 
-case class Minus extends Expression(numbers: List[Number]) {
+case class Minus(numbers: List[Number]) extends Expression {
   def eval: Value = this.numbers.reduceLeft(_ + _)
 }
 
