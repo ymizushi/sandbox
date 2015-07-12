@@ -8,13 +8,13 @@ import (
 type TokenReader struct {
 }
 
-func Tokenize(str string) []Token {
-    tokenStrArray = strings.Fields(str)
+func Tokenize(str string) *list.List {
+    tokenStrArray := strings.Fields(str)
     list := list.New()
-    for i, v range tokenStrArray {
-
+    for _, v := range tokenStrArray {
+        list.PushBack(v)
     }
-    return 
+    return list
 }
 
 type Token struct {
@@ -34,4 +34,3 @@ type Parser interface {
 type Evalable interface {
     Eval() Value
 }
-

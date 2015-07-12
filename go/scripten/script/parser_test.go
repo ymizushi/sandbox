@@ -1,21 +1,24 @@
 package script
 
-import (
-    "testing"
-)
+import "testing"
+
 
 func TestTokenizer(t *testing.T) {
-    hoge := Tokenize("( def hoge 1 )")
-    if hoge[0] != "(" {
-        t.Errorf("(じゃないよ")
+    tokenList := Tokenize("( def hoge 1 )")
+    first := tokenList.Front()
+    if first.Value != "(" {
+        t.Errorf("%sだよ", first.Value)
     }
-    if hoge[1] != "def" {
-        t.Errorf("defじゃないよ")
+    second := first.Next()
+    if second.Value != "def" {
+        t.Errorf("%sだよ", second.Value)
     }
-    if hoge[2] != "hoge" {
-        t.Errorf("hogeじゃないよ")
+    third := second.Next()
+    if third.Value != "hoge" {
+        t.Errorf("%sだよ", third.Value)
     }
-    if hoge[3] != "1" {
-        t.Errorf("1じゃないよ")
+    fourth := third.Next()
+    if fourth.Value != "1" {
+        t.Errorf("%sだよ", fourth.Value)
     }
 }
