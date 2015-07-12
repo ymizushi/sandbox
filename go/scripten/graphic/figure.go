@@ -2,17 +2,23 @@ package graphic
 
 import (
     "strconv"
+    "azul3d.org/gfx.v1"
 )
 
 type GraphicContext struct {
-    contex string
+    context gfx.Renderer
 }
 
-func NewGraphicContext() *GraphicContext {
-    return &GraphicContext{"hoge"}
+func NewGraphicContext(r gfx.Renderer) *GraphicContext {
+    return &GraphicContext{r}
 }
 
 func (gc *GraphicContext) DrawPoint(p *Point) {
+    fmt.Println("DrawPoint")
+}
+
+func (gc *GraphicContext) DrawRect(r *Rect) {
+    fmt.Println("DrawRect")
 }
 
 type Color struct {
@@ -46,4 +52,27 @@ func NewPoint(x float64, y float64, z float64) *Point {
 
 func (p *Point) Draw(graphicContext *GraphicContext) {
     graphicContext.DrawPoint(p)
+}
+
+
+type Size struct {
+    Width  float64
+    Height float64
+}
+
+func (s *Size) NewSize(width float64, height float64) *Size {
+    return &Size{width, height}
+}
+
+type Rect struct {
+    start *Point
+    size *Size
+}
+
+func (s *Size) NewRect(point *Point, size *Size) *Rect {
+    return &Rect{point, size}
+}
+
+func (r *Rect) Draw(graphicContext *GraphicContext) {
+    graphicContext.DrawRect(r)
 }
