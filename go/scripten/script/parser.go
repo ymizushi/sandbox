@@ -5,10 +5,7 @@ import (
     "container/list"
 )
 
-type TokenReader struct {
-}
-
-func Tokenize(str string) *list.List {
+func TokenizeToList(str string) *list.List {
     tokenStrArray := strings.Fields(str)
     list := list.New()
     for _, v := range tokenStrArray {
@@ -19,7 +16,18 @@ func Tokenize(str string) *list.List {
 
 type Token struct {
     Str string
+    Type string
 }
+
+func Tokenize(str string) []Token {
+    tokenStrArray := strings.Fields(str)
+    tokenArray := make([]Token, len(tokenStrArray))
+    for i, v := range tokenStrArray {
+        tokenArray[i] = Token{v, ""}
+    }
+    return tokenArray
+}
+
 
 type Expression struct {
 }
