@@ -2,43 +2,56 @@ package script
 
 import (
     "strings"
-    "container/list"
 )
-
-func TokenizeToList(str string) *list.List {
-    tokenStrArray := strings.Fields(str)
-    list := list.New()
-    for _, v := range tokenStrArray {
-        list.PushBack(v)
-    }
-    return list
-}
 
 type Token struct {
     Str string
     Type string
 }
 
-func Tokenize(str string) []Token {
+type Exp interface {
+    Eval() *Value
+}
+
+// Value
+type Value struct {
+    v interface{}
+}
+
+func (self *Value) Eval() *Value {
+    return self
+}
+
+
+type Number struct {
+    v interface{}
+}
+
+type PlusExp struct {
+    op string
+    args *[]Exp
+}
+
+func (self *PlusExp) Eval() *Value {
+    var result int = 0
+    for _, exp := range (*self.args) {
+        var value *Value = exp.Eval()
+        result += value.v.(int)
+    }
+    return &Value{result}
+}
+
+func Tokenize(str string) *[]Token {
     tokenStrArray := strings.Fields(str)
     tokenArray := make([]Token, len(tokenStrArray))
     for i, v := range tokenStrArray {
         tokenArray[i] = Token{v, ""}
     }
-    return tokenArray
+    return &tokenArray
 }
 
+// func Parse(tokens *[]Token) *[]Exp {
+// }
 
-type Expression struct {
-}
 
-type Value struct {
-}
-
-type Parser interface {
-    Parse() Value
-}
-
-type Evalable interface {
-    Eval() Value
-}
+// Eval(Parse(Tokenize("(def hoge 1)")))
