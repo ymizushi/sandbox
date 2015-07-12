@@ -2,13 +2,19 @@ package script
 
 import (
     "strings"
+    "container/list"
 )
 
 type TokenReader struct {
 }
 
-func Tokenize(str string) []string {
-    return strings.Fields(str)
+func Tokenize(str string) []Token {
+    tokenStrArray = strings.Fields(str)
+    list := list.New()
+    for i, v range tokenStrArray {
+
+    }
+    return 
 }
 
 type Token struct {
