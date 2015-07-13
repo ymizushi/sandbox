@@ -3,6 +3,7 @@ package graphic
 import (
     "strconv"
     "azul3d.org/gfx.v1"
+    "fmt"
 )
 
 type GraphicContext struct {
