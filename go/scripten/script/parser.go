@@ -11,12 +11,12 @@ type Exp interface {
 
 // Token
 type Token struct {
-    Str string
     Type string
+    Str string
 }
 
-func NewToken(s, t string) *Token {
-    return &Token{s, t}
+func NewToken(t, s string) *Token {
+    return &Token{t, s}
 }
 
 // Value
@@ -39,7 +39,6 @@ type Number struct {
 
 // PlusExp
 type PlusExp struct {
-    op string
     args *[]Exp
 }
 
@@ -64,6 +63,5 @@ func Tokenize(str string) *[]Token {
 
 // func Parse(tokens *[]Token) *[]Exp {
 // }
-
 
 // Eval(Parse(Tokenize("(def hoge 1)")))
