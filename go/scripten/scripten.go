@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    "./graphic"
+    // "./graphic"
     "image"
     "reflect"
     "azul3d.org/gfx.v1"
@@ -35,9 +35,13 @@ func gfxLoop(w window.Window, r gfx.Renderer) {
     }
 }
 
+func makeProps() *window.Props{
+    var props *window.Props = window.NewProps()
+    props.SetFullscreen(true)
+    props.SetTitle("scripten")
+    return props
+}
+
 func main() {
-    fmt.Println("hoge")
-    c := graphic.NewColor(1,2,3,4)
-    fmt.Println(c.Str())
-    window.Run(gfxLoop, nil)
+    window.Run(gfxLoop, makeProps())
 }
