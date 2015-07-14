@@ -183,14 +183,17 @@ func gfxLoop(w window.Window, r gfx.Renderer) {
         }
     }()
 
+    var counter float64 = 0.0
     for {
+        counter += 1.0
         // Center the card in the window.
         b := r.Bounds()
         card.SetPos(lmath.Vec3{float64(b.Dx()) / 2.0, 0, float64(b.Dy()) / 2.0})
 
         // Scale the card to fit the window.
-        s := float64(b.Dy()) / 2.0 // Card is two units wide, so divide by two.
-        card.SetScale(lmath.Vec3{s, s, s})
+        // s := float64(b.Dy()) / 4.0 // Card is two units wide, so divide by two.
+        card.SetScale(lmath.Vec3{counter, counter, counter})
+        card.SetRot(lmath.Vec3{counter, 0, 0})
 
         // Clear the entire area (empty rectangle means "the whole area").
         r.Clear(image.Rect(0, 0, 0, 0), gfx.Color{1, 1, 1, 1})
