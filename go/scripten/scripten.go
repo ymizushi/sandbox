@@ -8,14 +8,14 @@ import (
     "image"
     _ "image/png"
     // "reflect"
-    "path/filepath"
     "azul3d.org/gfx.v1"
     "azul3d.org/gfx/window.v2"
     "azul3d.org/keyboard.v1"
-    // "azul3d.org/mouse.v1"
     "azul3d.org/lmath.v1"
+    "azul3d.org/mouse.v1"
     "log"
     "os"
+    "path/filepath"
 )
 
 var examplesDir string
@@ -183,17 +183,14 @@ func gfxLoop(w window.Window, r gfx.Renderer) {
         }
     }()
 
-    var counter float64 = 0.0
     for {
-        counter += 1.0
         // Center the card in the window.
         b := r.Bounds()
         card.SetPos(lmath.Vec3{float64(b.Dx()) / 2.0, 0, float64(b.Dy()) / 2.0})
 
-        // Scale the card to fit the window.
-        // s := float64(b.Dy()) / 4.0 // Card is two units wide, so divide by two.
-        card.SetScale(lmath.Vec3{counter, counter, counter})
-        card.SetRot(lmath.Vec3{counter, 0, 0})
+        s := float64(b.Dy()) / 4.0 // Card is two units wide, so divide by two.
+        card.SetScale(lmath.Vec3{s, s, s})
+        // card.SetRot(lmath.Vec3{counter, 0, 0})
 
         // Clear the entire area (empty rectangle means "the whole area").
         r.Clear(image.Rect(0, 0, 0, 0), gfx.Color{1, 1, 1, 1})
@@ -202,25 +199,22 @@ func gfxLoop(w window.Window, r gfx.Renderer) {
         // Draw the textured card.
         r.Draw(image.Rect(0, 0, 0, 0), card, camera)
 
+        if w.Keyboard().Down(keyboard.Space) {
+            r.Clear(image.Rect(0, 0, 100, 100), gfx.Color{1, 0, 0, 1})
+        }
+
+        if w.Mouse().Down(mouse.Left) {
+            r.Clear(image.Rect(100, 100, 200, 200), gfx.Color{0, 0, 1, 1})
+        }
+
         // Render the whole frame.
         r.Render()
+
     }
 
-    // for {
-    //     r.Clear(image.Rect(0, 0, 0, 0), gfx.Color{1, 1, 1, 1})
-
-    //     if w.Keyboard().Down(keyboard.Space) {
-    //         r.Clear(image.Rect(0, 0, 100, 100), gfx.Color{1, 0, 0, 1})
-    //     }
-
-    //     if w.Mouse().Down(mouse.Left) {
-    //         r.Clear(image.Rect(100, 100, 200, 200), gfx.Color{0, 0, 1, 1})
-    //     }
-    //     r.Render()
-    // }
 }
 
-func makeProps() *window.Props{
+func makeProps() *window.Props {
     var props *window.Props = window.NewProps()
     // props.SetFullscreen(true)
     props.SetTitle("scripten")
