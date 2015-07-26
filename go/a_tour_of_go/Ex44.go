@@ -17,7 +17,6 @@ func fibonacci() func() int {
         i += 1
         return fib_func(i)
     }
-// return fib(n-2)+fib(n-1)
 }
 
 func main() {
