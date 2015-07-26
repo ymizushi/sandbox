@@ -9,7 +9,6 @@ type ErrNegativeSqrt float64
 
 func (e ErrNegativeSqrt) Error() string {
     return "cannot Sqrt negative number:" + strconv.FormatFloat(float64(e), 'G', 'G', 64)
-
 }
 
 func Newton(z float64, x float64) float64 {
