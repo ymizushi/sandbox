@@ -149,7 +149,13 @@ while True:
         break
     input_str = raw_input_str.decode('utf-8')
     output_str = ''
-    for i in input_str:
-        output_str += TENJI_MAP[i]
+    i = 0
+    while i < len(input_str):
+        if TENJI_MAP.get(input_str[i:i+2]):
+            output_str += TENJI_MAP.get(input_str[i:i+1])
+            i += 1
+        else:
+            output_str += TENJI_MAP[input_str[i]]
+        i += 1
     output_str += '\n'
     print output_str
