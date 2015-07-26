@@ -152,7 +152,7 @@ while True:
     i = 0
     while i < len(input_str):
         if TENJI_MAP.get(input_str[i:i+2]):
-            output_str += TENJI_MAP.get(input_str[i:i+1])
+            output_str += TENJI_MAP.get(input_str[i:i+2])
             i += 1
         else:
             output_str += TENJI_MAP[input_str[i]]
