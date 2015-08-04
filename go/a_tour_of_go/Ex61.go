@@ -18,9 +18,7 @@ func (self MyError) Error() string {
    return  self.message
 }
 
-func (r rot13Reader) Read(p []byte) (n int, err Error) {
-    var err
-    err = Read()
+func (r rot13Reader) Read(p []byte) (n int, err error) {
     return 1, MyError{"hoge"}
 }
 
