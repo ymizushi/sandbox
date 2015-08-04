@@ -10,6 +10,20 @@ type rot13Reader struct {
     r io.Reader
 }
 
+type MyError struct {
+    message string
+}
+
+func (self MyError) Error() string {
+   return  self.message
+}
+
+func (r rot13Reader) Read(p []byte) (n int, err Error) {
+    var err
+    err = Read()
+    return 1, MyError{"hoge"}
+}
+
 func main() {
     s := strings.NewReader(
         "Lbh penpxrq gur pbqr!")
