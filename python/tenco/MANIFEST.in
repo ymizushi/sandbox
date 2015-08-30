@@ -1,0 +1,6 @@
+include LICENSE
+include tenco.py
+include shell.py
+include config.py
+graft tests
+graft app

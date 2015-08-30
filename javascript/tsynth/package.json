@@ -1,0 +1,26 @@
+{
+  "name": "tsynth",
+  "version": "1.0.0",
+  "description": "tsynth",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ymizushi/tsynth.git"
+  },
+  "author": "Yuta Mizushima",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/ymizushi/tsynth/issues"
+  },
+  "homepage": "https://github.com/ymizushi/tsynth",
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-typescript": "^2.7.5",
+    "gulp-watch": "^4.2.4",
+    "merge2": "^0.3.5",
+    "tsd": "^0.6.0"
+  }
+}

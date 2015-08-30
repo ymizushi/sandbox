@@ -1,3 +1,4 @@
 node_modules
 *.un~
 bower_components
+*.idea

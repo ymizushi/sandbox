@@ -1,0 +1,18 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "rx/rx.d.ts": {
+      "commit": "aadd63ecae3feb76ea2d4be80511e266b5c2c4a7"
+    },
+    "webrtc/RTCPeerConnection.d.ts": {
+      "commit": "aadd63ecae3feb76ea2d4be80511e266b5c2c4a7"
+    },
+    "rx/rx-lite.d.ts": {
+      "commit": "aadd63ecae3feb76ea2d4be80511e266b5c2c4a7"
+    }
+  }
+}
