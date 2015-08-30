@@ -1,0 +1,37 @@
+src_files:
+    - 'static/js/lib/flocking-all.js'
+    - 'static/js/src/Laugh.js'
+    - 'static/js/src/core/**/*.js'
+
+# stylesheets
+#
+# Return an array of stylesheet filepaths relative to src_dir to include before jasmine specs.
+# Default: []
+#
+# EXAMPLE:
+#
+# stylesheets:
+#   - css/style.css
+#   - stylesheets/*.css
+#
+stylesheets:
+
+# helpers
+#
+# Return an array of filepaths relative to spec_dir to include before jasmine specs.
+# Default: ["helpers/**/*.js"]
+#
+# EXAMPLE:
+#
+# helpers:
+#   - helpers/**/*.js
+#
+helpers:
+
+spec_dir: spec
+
+spec_files:
+  - "core/**/*.js"
+#
+# spec_files:
+#   - **/*[sS]pec.js

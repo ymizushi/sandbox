@@ -1,0 +1,26 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>@title</title>
+  hogehoge
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+    body {
+      font-family: Monospace;
+      background-color: #f0f0f0;
+      margin: 0px;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+</head>
+<body>
+  <script src="@routes.Assets.at("javascripts/lib/threejs/build/three.js")"></script>
+  <script src="@routes.Assets.at("javascripts/lib/stats.js/build/stats.min.js")"></script>
+  <script src="@routes.Assets.at("javascripts/lib/flocking-all.js")"></script>
+  <script src="@routes.Assets.at("javascripts/build/laughcraft.js")"></script>
+@*content*@
+</body>
+</html>

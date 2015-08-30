@@ -1,0 +1,25 @@
+[
+    score: [
+        {
+            "objectId": 1,
+            "instId": 1,
+            "meshId": 1,
+            "key": "A3",
+            "synthDef" { }
+        },
+        {
+            "objectId": 1,
+            "instId": 1,
+            "meshId": 1,
+            "key": "A3",
+            "synthDef" { }
+        },
+        {
+            "objectId": 1,
+            "instId": 1,
+            "meshId": 1,
+            "key": "A3",
+            "synthDef" { }
+        }
+    ]
+]
