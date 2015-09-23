@@ -28,12 +28,7 @@ lazy val application = Project(
 
 // ドメイン層
 // ドメイン層はインフラ層に依存
-lazy val domain = Project(
-  id = "domain",
-  base = file("domain")
-).dependsOn(
-    infrastructure
-  ).settings(
+lazy val domain = Project(id = "domain", base = file("domain")).settings(
     scalaSource in Compile := baseDirectory.value / "src" / "main" / "scala",
     scalaSource in Test := baseDirectory.value / "src" / "test" / "scala"
   )
@@ -42,7 +37,7 @@ lazy val domain = Project(
 lazy val infrastructure = Project(
   id = "infrastructure",
   base = file("infrastructure")
-).settings(
+).dependsOn(domain).settings(
     scalaSource in Compile := baseDirectory.value / "src" / "main" / "scala",
     scalaSource in Test := baseDirectory.value / "src" / "test" / "scala"
   )
