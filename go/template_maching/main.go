@@ -2,7 +2,6 @@ package main
 
 import (
     "fmt"
-    // "github.com/nfnt/resize"
     "image"
     _ "image/jpeg"
     "os"
@@ -20,9 +19,6 @@ func main() {
         fmt.Println(err)
         return
     }
-
-    // resize for performance
-    // img = resize.Resize(36, 0, img, resize.Lanczos3)
 
     printRastor(img)
     hist := getHistgram(img)
@@ -90,3 +86,27 @@ func rgb2int(r, g, b int) int {
 func int2rgb(i int) (r, g, b int) {
     return ((i >> 6 & 0x7) << 5) + 16, ((i >> 3 & 0x7) << 5) + 16, ((i >> 0 & 0x7) << 5) + 16
 }
+
+type Size struct {
+    Width int
+    Height int
+}
+
+type Point struct {
+    X int
+    Y int
+}
+
+type Color struct {
+    R int
+    G int
+    B int
+    A int
+}
+
+type Pixel struct {
+    P Point
+    C Color
+}
+
+var image = [10]
