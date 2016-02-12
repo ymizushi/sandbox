@@ -1,40 +1,39 @@
 package info.ymizushi.emola
 
 object Emola {
-  def main(args: Array[String]) {
+  def main(args: Array[String]) =
     println("hoge")
-  }
 }
 
 case class Token(s: String)
 
-object TokenReader {
-  def read(tokens: String):List[Token] {
-
-  }
+trait TokenReader {
+  def read(tokenStr: String): Seq[Token]
 }
 
-object Parser {
-  def parse(tokens: List[Token]): List[Expression]
+trait Parser[A] {
+  def parse(tokens: Seq[Token]): Seq[Expression[A]]
 }
 
-trait Expression {
-  def eval: Value
+trait Expression[A] {
+  def eval: A
 }
 
-case class Value[A](v: A) extends Expression {
-  def eval: Value = this.v
+case class Value[A](v: A)
+
+class Number(v: Int) extends Value {
+  def plus(v: Number): Number =
+    new Number(this.v) 
+
 }
 
-class Number extends Value
+class Str(s: String) extends Value
 
-class String extends Value
-
-case class Plus(numbers: List[Number]) extends Expression  {
-  def eval: Value = this.numbers.sum
+class Plus(numbers: Seq[Number]) extends Expression[Number]  {
+  def eval: Number = this.numbers.foldLeft(new Number(0))(_ plus _)
 }
 
-case class Minus(numbers: List[Number]) extends Expression {
-  def eval: Value = this.numbers.reduceLeft(_ + _)
-}
-
+// case class Minus(numbers: List[Number]) extends Expression {
+//   def eval: Value = this.numbers.reduceLeft(_ + _)
+// }
+// 
