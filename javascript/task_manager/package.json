@@ -1,7 +1,7 @@
 {
   "name": "TaskMan",
   "version": "0.0.1",
-  "main": "gulpfile.js",
+  "main": "gulpfile.babel.js",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.7.2",
@@ -11,6 +11,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "",
     "gulp-load-plugins": "^1.2.0",
+    "gulp-watch": "^4.3.5",
     "jshint": "",
     "jslint": "",
     "merge2": ""

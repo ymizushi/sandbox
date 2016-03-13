@@ -3,14 +3,16 @@
 	<head>
 		<title>Task Manger For Handicapped.</title>
 		<link href="style.css" rel="stylesheet" type="text/css">
+		<script src="dist/js/main.js" type="text/javascript"></script>
 	</head>
 
 	<body>
+    <canvas id="clock" width="400" height="400">図形を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas>
+    <div id="clock">時計</div>
 		<div class="close"></div>
 		<div id='container'>
 			<div class="world selected">
 				<div class="new hidden">
-					<canvas class="clock"></canvas>
 					<div class="new-input">
 						<input type="text" id="new-city" /><br>
 						<div class="error-message hidden"></div>
