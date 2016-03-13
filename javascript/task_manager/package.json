@@ -1,0 +1,27 @@
+{
+  "name": "TaskMan",
+  "version": "0.0.1",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "bower": "",
+    "gulp": "",
+    "gulp-concat": "",
+    "jshint": "",
+    "jslint": "",
+    "merge2": ""
+  },
+  "description": "Task Manager to simplify complex jobs.",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ymizushi/TaskMan.git"
+  },
+  "author": "Yuta Mizushima",
+  "license": "AML",
+  "bugs": {
+    "url": "https://github.com/ymizushi/TaskMan/issues"
+  },
+  "homepage": "https://github.com/ymizushi/TaskMan"
+}
