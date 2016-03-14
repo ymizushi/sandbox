@@ -42,7 +42,7 @@ class TimerListener extends Listener {
     super()
     this._timer = timer;
     this._clockComponent = new ClockComponent();
-    this._timerComponent = new TimerComponent();
+    this._timerComponent = new TimeComponent();
     this._lapComponents = [];
   }
 
@@ -66,7 +66,7 @@ class ClockComponent extends Component {
 
   _draw(timer) {
     var element = document.getElementById('clock');
-    element.innerHTML=timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
+    element.innerHTML=timer.diff(new Time(new Date()));
   }
 
 }
@@ -98,15 +98,9 @@ class EventHandler {
     this.listeners.push(listener);
   }
 
-  notify() {
+  tick() {
     for (var i in this.listeners) {
-      this.listeners[i].notify();
-    }
-  }
-
-  stopTime() {
-    for (var i in this.listeners) {
-      this.listeners[i].stopTime();
+      this.listeners[i].tick();
     }
   }
 }
@@ -120,7 +114,7 @@ function main() {
     document.getElementById('start').addEventListener('click', () => {
 			console.log("start");
     });
-    
+
     document.getElementById('lap').addEventListener('click', () => {
 			console.log("lap");
     });
@@ -128,7 +122,7 @@ function main() {
 			console.log("stop");
     });
 
-		window.setInterval(() => eventHandler.notify(), 1000);
+		window.setInterval(() => eventHandler.tick(), 1000);
 	}
 
 }

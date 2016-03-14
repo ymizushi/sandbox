@@ -1,12 +1,40 @@
-'use strict';
+"use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
 var Time = function () {
   function Time(date) {
@@ -16,22 +44,22 @@ var Time = function () {
   }
 
   _createClass(Time, [{
-    key: 'hours',
+    key: "hours",
     get: function get() {
       return this._date.getHours();
     }
   }, {
-    key: 'minutes',
+    key: "minutes",
     get: function get() {
       return this._date.getMinutes();
     }
   }, {
-    key: 'seconds',
+    key: "seconds",
     get: function get() {
       return this._date.getSeconds();
     }
   }, {
-    key: 'time',
+    key: "time",
     get: function get() {
       return this._date.getTime();
     }
@@ -48,12 +76,12 @@ var Timer = function () {
   }
 
   _createClass(Timer, [{
-    key: 'tick',
+    key: "tick",
     value: function tick() {
-      return this.diff(new Time(new Date())) / 1000000;
+      return this.diff(new Time(new Date()));
     }
   }, {
-    key: 'diff',
+    key: "diff",
     value: function diff(time) {
       return time.time - this._time.time;
     }
@@ -76,19 +104,19 @@ var TimerListener = function (_Listener) {
 
     _this._timer = timer;
     _this._clockComponent = new ClockComponent();
-    _this._timerComponent = new TimeComponent();
+    _this._timerComponent = new TimerComponent();
     _this._lapComponents = [];
     return _this;
   }
 
   _createClass(TimerListener, [{
-    key: 'tick',
+    key: "tick",
     value: function tick() {
       this._timer.tick();
       this._clockComponent.tick(this._timer);
     }
   }, {
-    key: 'lap',
+    key: "lap",
     value: function lap() {
       this._lapComponents.forEach(function (e) {
         return e.lap();
@@ -113,15 +141,15 @@ var ClockComponent = function (_Component) {
   }
 
   _createClass(ClockComponent, [{
-    key: 'tick',
+    key: "tick",
     value: function tick(timer) {
       this._draw(timer);
     }
   }, {
-    key: '_draw',
+    key: "_draw",
     value: function _draw(timer) {
       var element = document.getElementById('clock');
-      element.innerHTML = timer.diff(new Time(new Date()));
+      element.innerHTML = timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
     }
   }]);
 
@@ -141,14 +169,14 @@ var TimeComponent = function (_Component2) {
   }
 
   _createClass(TimeComponent, [{
-    key: 'lap',
+    key: "lap",
     value: function lap(timer) {
       var millisec = this._beforeTime.diff(timer);
       this._beforeTime = timer;
       this._draw(millisec);
     }
   }, {
-    key: '_draw',
+    key: "_draw",
     value: function _draw(millisec) {
       var time = document.getElementById('time');
       time.innerHTML = millisec;
@@ -166,15 +194,22 @@ var EventHandler = function () {
   }
 
   _createClass(EventHandler, [{
-    key: 'addListener',
+    key: "addListener",
     value: function addListener(listener) {
       this.listeners.push(listener);
     }
   }, {
-    key: 'tick',
-    value: function tick() {
+    key: "notify",
+    value: function notify() {
       for (var i in this.listeners) {
-        this.listeners[i].tick();
+        this.listeners[i].notify();
+      }
+    }
+  }, {
+    key: "stopTime",
+    value: function stopTime() {
+      for (var i in this.listeners) {
+        this.listeners[i].stopTime();
       }
     }
   }]);
@@ -200,9 +235,13 @@ function main() {
     });
 
     window.setInterval(function () {
-      return eventHandler.tick();
+      return eventHandler.notify();
     }, 1000);
   };
 }
 
 main();
+
+//# sourceMappingURL=main-compiled.js.map
+
+//# sourceMappingURL=main-compiled-compiled.js.map
