@@ -60,6 +60,7 @@ class TimerListener extends Listener {
   }
 
   start() {
+    this._timer.tick();
     this._timeComponent.start(this._timer);
   }
 

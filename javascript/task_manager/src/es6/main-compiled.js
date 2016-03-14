@@ -100,6 +100,7 @@ var TimerListener = function (_Listener) {
   }, {
     key: "start",
     value: function start() {
+      this._timer.tick();
       this._timeComponent.start(this._timer);
     }
   }, {
