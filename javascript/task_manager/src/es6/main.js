@@ -26,10 +26,6 @@ class Timer {
     this._time = time;
   }
 
-  init() {
-    this._time = new Time(new Date());
-  }
-
   tick () {
     return this.diff(new Time(new Date()));
   }
@@ -46,22 +42,13 @@ class TimerListener extends Listener {
     super()
     this._timer = timer;
     this._clockComponent = new ClockComponent();
-    this._timeComponent = new TimeComponent();
+    this._timerComponent = new TimerComponent();
     this._lapComponents = [];
   }
 
   tick() {
     this._timer.tick();
     this._clockComponent.tick(this._timer);
-  }
-
-  stop() {
-    this._timeComponent.stop(this._timer);
-  }
-
-  start() {
-    this._timer.tick();
-    this._timeComponent.start(this._timer);
   }
 
   lap() {
@@ -133,6 +120,7 @@ function main() {
     document.getElementById('start').addEventListener('click', () => {
 			console.log("start");
     });
+    
     document.getElementById('lap').addEventListener('click', () => {
 			console.log("lap");
     });
