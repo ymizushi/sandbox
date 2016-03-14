@@ -1,59 +1,82 @@
-class Timer{
+class Time {
   constructor(date) {
-    this.init(date);
+    this._date = date;
   }
 
-  init(date) {
-    this.date = date;
-    this.hours = date.getHours();
-    this.minutes = date.getMinutes();
-    this.seconds = date.getSeconds();
+  get hours() {
+    return this._date.getHours();
   }
 
-  tick () {
-    const date = new Date();
-    this.hours = date.getHours();
-    this.minutes = date.getMinutes();
-    this.seconds = date.getSeconds();
+  get minutes() {
+    return this._date.getMinutes();
   }
 
-  diff(date) {
-    return date.getTime() - this.date.getTime();
+  get seconds() {
+    return this._date.getSeconds();
+  }
+
+  get time() {
+    return this._date.getTime();
   }
 }
 
-class Listener {
-  notify() {
+
+class Timer {
+  constructor(time) {
+    this._time = time;
+  }
+
+  stop() {
+
+  }
+
+  tick (time) {
+    this._time = new Time(new Date());
+  }
+
+  diff(time) {
+    return time.time - this.time
   }
 }
+
+class Listener {}
 
 class TimerListener extends Listener {
-  constructor(timer, timeComponent) {
+  constructor(timer) {
     super()
-    this.timer = timer;
-    this.component = component
-		this.timeComponent = 
+    this._timer = timer;
+    this._clockComponent = new ClockComponent();
+    this._timeComponent = new TimeComponent();
+    this._lapComponents = [];
   }
 
-  notify() {
-    this.timer.tick();
-    this.component.update(this.timer);
+  tick() {
+    this._timer.tick();
+    this._clockComponent.tick(this._timer);
   }
 
-  stopTime() {
-    this.component.update(this.timer);
+  stop() {
+    this._timeComponent.stop(this._timer);
   }
-} 
+
+  start() {
+    this._timeComponent.start(this._timer);
+  }
+
+  lap() {
+    this._lapComponents.forEach((e) => e.lap());
+  }
+}
 
 class Component {
 }
 
 class ClockComponent extends Component {
-  update(timer) {
-    this.draw(timer);
+  tick(timer) {
+    this._draw(timer);
   }
 
-  draw(timer) {
+  _draw(timer) {
     var element = document.getElementById('clock');
     element.innerHTML=timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
   }
@@ -62,20 +85,21 @@ class ClockComponent extends Component {
 
 class TimeComponent extends Component {
   constructor() {
-    this.beforeTime = new Timer(new Date());
+    super();
+    this._beforeTime = new Timer(new Date());
   }
 
-  update(timer) {
-    this.beforeTime = timer
-    this.draw(timer);
+  lap(timer) {
+    const millisec = this._beforeTime.diff(timer);
+    this._beforeTime = timer;
+    this._draw(millisec);
   }
 
-  draw(timer) {
+  _draw(millisec) {
     var time = document.getElementById('time');
-    time.innerHTML=timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
+    time.innerHTML = millisec;
   }
 }
-
 
 class EventHandler {
   constructor() {
