@@ -1,13 +1,13 @@
 class Timer{
   constructor(date) {
+    this.init(date);
+  }
+
+  init(date) {
+    this.date = date;
     this.hours = date.getHours();
     this.minutes = date.getMinutes();
     this.seconds = date.getSeconds();
-  }
-
-  get toString() {
-    return this.hours.toString() + this.minutes.toString() + this.seconds().toString();
-  
   }
 
   tick () {
@@ -15,7 +15,10 @@ class Timer{
     this.hours = date.getHours();
     this.minutes = date.getMinutes();
     this.seconds = date.getSeconds();
-    return this;
+  }
+
+  diff(date) {
+    return date.getTime() - this.date.getTime();
   }
 }
 
@@ -25,36 +28,51 @@ class Listener {
 }
 
 class TimerListener extends Listener {
-  constructor(timer, component) {
+  constructor(timer, timeComponent) {
     super()
     this.timer = timer;
     this.component = component
+		this.timeComponent = 
   }
 
   notify() {
-    this.component.update(this.timer)
+    this.timer.tick();
+    this.component.update(this.timer);
+  }
+
+  stopTime() {
+    this.component.update(this.timer);
   }
 } 
 
 class Component {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-  update(width ,height) {
-    this.width = width;
-    this.height = height;
-  }
 }
 
-class TimerComponent extends Component {
-  constructor(width, height) {
-    super(width, height);
+class ClockComponent extends Component {
+  update(timer) {
+    this.draw(timer);
   }
 
-  draw(ctx) {
-    var element = window.getElementById("clockstr"");
-  
+  draw(timer) {
+    var element = document.getElementById('clock');
+    element.innerHTML=timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
+  }
+
+}
+
+class TimeComponent extends Component {
+  constructor() {
+    this.beforeTime = new Timer(new Date());
+  }
+
+  update(timer) {
+    this.beforeTime = timer
+    this.draw(timer);
+  }
+
+  draw(timer) {
+    var time = document.getElementById('time');
+    time.innerHTML=timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
   }
 }
 
@@ -65,35 +83,41 @@ class EventHandler {
   }
 
   addListener(listener) {
-    this.listeners.push(listener)
+    this.listeners.push(listener);
   }
 
   notify() {
-    for (var n of this.listeners) {
-      n.notify()
+    for (var i in this.listeners) {
+      this.listeners[i].notify();
+    }
+  }
+
+  stopTime() {
+    for (var i in this.listeners) {
+      this.listeners[i].stopTime();
     }
   }
 }
 
 function main() {
   const eventHandler = new EventHandler();
-  const timerListener = new TimerListener(new Timer(new Date()), new Component(100, 200))
+  const timerListener = new TimerListener(new Timer(new Date()), new ClockComponent());
   eventHandler.addListener(timerListener);
 
-  window.setInteval(eventHandler.notify, 1000);
+  window.onload=function(){
+    document.getElementById('start').addEventListener('click', () => {
+			console.log("start");
+    });
+    document.getElementById('lap').addEventListener('click', () => {
+			console.log("lap");
+    });
+    document.getElementById('stop').addEventListener('click', () => {
+			console.log("stop");
+    });
 
-  window.onLoad = function () {
-    const canvas = document.getElementById('clock');
-    if (canvas == null) {
-      console.log("canvas context is null");
-    }
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgb(200,0,0)";
-    ctx.fillRect (10, 10, 55, 50);
+		window.setInterval(() => eventHandler.notify(), 1000);
+	}
 
-    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-    ctx.fillRect (30, 30, 55, 50);
-  }
 }
 
 main();

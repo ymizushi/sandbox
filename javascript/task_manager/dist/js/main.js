@@ -12,24 +12,23 @@ var Timer = function () {
   function Timer(date) {
     _classCallCheck(this, Timer);
 
-    this.hours = date.getHours();
-    this.minutes = date.getMinutes();
-    this.seconds = date.getSeconds();
+    this.init(date);
   }
 
   _createClass(Timer, [{
+    key: "init",
+    value: function init(date) {
+      this.hours = date.getHours();
+      this.minutes = date.getMinutes();
+      this.seconds = date.getSeconds();
+    }
+  }, {
     key: "tick",
     value: function tick() {
       var date = new Date();
       this.hours = date.getHours();
       this.minutes = date.getMinutes();
       this.seconds = date.getSeconds();
-      return this;
-    }
-  }, {
-    key: "toString",
-    get: function get() {
-      return this.hours.toString() + this.minutes.toString() + this.seconds().toString();
     }
   }]);
 
@@ -52,7 +51,7 @@ var Listener = function () {
 var TimerListener = function (_Listener) {
   _inherits(TimerListener, _Listener);
 
-  function TimerListener(timer, component) {
+  function TimerListener(timer, timeComponent) {
     _classCallCheck(this, TimerListener);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TimerListener).call(this));
@@ -65,6 +64,12 @@ var TimerListener = function (_Listener) {
   _createClass(TimerListener, [{
     key: "notify",
     value: function notify() {
+      this.timer.tick();
+      this.component.update(this.timer);
+    }
+  }, {
+    key: "stopTime",
+    value: function stopTime() {
       this.component.update(this.timer);
     }
   }]);
@@ -72,37 +77,30 @@ var TimerListener = function (_Listener) {
   return TimerListener;
 }(Listener);
 
-var Component = function () {
-  function Component(width, height) {
-    _classCallCheck(this, Component);
-
-    this.width = width;
-    this.height = height;
-  }
-
-  _createClass(Component, [{
-    key: "update",
-    value: function update(width, height) {
-      this.width = width;
-      this.height = height;
-    }
-  }]);
-
-  return Component;
-}();
+var Component = function Component() {
+  _classCallCheck(this, Component);
+};
 
 var TimerComponent = function (_Component) {
   _inherits(TimerComponent, _Component);
 
-  function TimerComponent(width, height) {
+  function TimerComponent() {
     _classCallCheck(this, TimerComponent);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(TimerComponent).call(this, width, height));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(TimerComponent).apply(this, arguments));
   }
 
   _createClass(TimerComponent, [{
+    key: "update",
+    value: function update(timer) {
+      this.draw(timer);
+    }
+  }, {
     key: "draw",
-    value: function draw(ctx) {}
+    value: function draw(timer) {
+      var element = document.getElementById('clock');
+      element.innerHTML = timer.hours + "時" + timer.minutes + "分" + timer.seconds + "秒";
+    }
   }]);
 
   return TimerComponent;
@@ -123,29 +121,15 @@ var EventHandler = function () {
   }, {
     key: "notify",
     value: function notify() {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = this.listeners[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var n = _step.value;
-
-          n.notify();
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+      for (var i in this.listeners) {
+        this.listeners[i].notify();
+      }
+    }
+  }, {
+    key: "stopTime",
+    value: function stopTime() {
+      for (var i in this.listeners) {
+        this.listeners[i].stopTime();
       }
     }
   }]);
@@ -155,22 +139,23 @@ var EventHandler = function () {
 
 function main() {
   var eventHandler = new EventHandler();
-  var timerListener = new TimerListener(new Timer(new Date()), new Component(100, 200));
+  var timerListener = new TimerListener(new Timer(new Date()), new TimerComponent());
   eventHandler.addListener(timerListener);
 
-  window.setInteval(eventHandler.notify, 1000);
+  window.onload = function () {
+    document.getElementById('start').addEventListener('click', function () {
+      console.log("start");
+    });
+    document.getElementById('lap').addEventListener('click', function () {
+      console.log("lap");
+    });
+    document.getElementById('stop').addEventListener('click', function () {
+      console.log("stop");
+    });
 
-  window.onLoad = function () {
-    var canvas = document.getElementById('clock');
-    if (canvas == null) {
-      console.log("canvas context is null");
-    }
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgb(200,0,0)";
-    ctx.fillRect(10, 10, 55, 50);
-
-    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-    ctx.fillRect(30, 30, 55, 50);
+    window.setInterval(function () {
+      return eventHandler.notify();
+    }, 1000);
   };
 }
 
