@@ -48,17 +48,19 @@ var Timer = function () {
   }
 
   _createClass(Timer, [{
-    key: "stop",
-    value: function stop() {}
+    key: "init",
+    value: function init() {
+      this._time = new Time(new Date());
+    }
   }, {
     key: "tick",
-    value: function tick(time) {
-      this._time = new Time(new Date());
+    value: function tick() {
+      return this.diff(new Time(new Date()));
     }
   }, {
     key: "diff",
     value: function diff(time) {
-      return time.time - this.time;
+      return time.time - this._time.time;
     }
   }]);
 
@@ -204,7 +206,7 @@ var EventHandler = function () {
 
 function main() {
   var eventHandler = new EventHandler();
-  var timerListener = new TimerListener(new Timer(new Date()), new ClockComponent());
+  var timerListener = new TimerListener(new Timer(new Time(new Date())), new ClockComponent());
   eventHandler.addListener(timerListener);
 
   window.onload = function () {

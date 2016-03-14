@@ -26,16 +26,16 @@ class Timer {
     this._time = time;
   }
 
-  stop() {
-
-  }
-
-  tick (time) {
+  init() {
     this._time = new Time(new Date());
   }
 
+  tick () {
+    return this.diff(new Time(new Date()));
+  }
+
   diff(time) {
-    return time.time - this.time
+    return time.time - this._time.time
   }
 }
 
@@ -125,7 +125,7 @@ class EventHandler {
 
 function main() {
   const eventHandler = new EventHandler();
-  const timerListener = new TimerListener(new Timer(new Date()), new ClockComponent());
+  const timerListener = new TimerListener(new Timer(new Time(new Date())), new ClockComponent());
   eventHandler.addListener(timerListener);
 
   window.onload=function(){
