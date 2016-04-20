@@ -1,12 +1,14 @@
-from flask import Blueprint, render_template, abort
+#!env python3
+
+from flask import Flask, Blueprint, render_template
+from flask_sqlalchemy import SQLAlchemy
 from jinja2 import TemplateNotFound
+import config
 
-admin = Blueprint('admin', __name__, template_folder='admin')
-
-@admin.route('/', defaults={'page': 'index'})
-@admin.route('/<page>')
-def show(page):
+admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
+@admin.route('/')
+def index():
     try:
-        return render_template('pages/%s.html' % page)
+        return render_template('admin/index.html')
     except TemplateNotFound:
         abort(404)
