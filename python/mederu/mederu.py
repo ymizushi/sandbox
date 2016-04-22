@@ -5,11 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 import config
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
-import model.users
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/mederu.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key='hogehoge'
+
+db = SQLAlchemy(app)
+# import model.users
 # 
 import apps.frontend.views
 app.register_blueprint(apps.frontend.views.frontend)

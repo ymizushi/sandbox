@@ -1,14 +1,12 @@
 #!env python3
-from server import db
+
+from mederu import db
 db.create_all()
 
-from server import User
-admin = User('admin', 'admin@example.com')
-guest = User('guest', 'guest@example.com')
+from model.users import User
+admin = User('admin', 'admin@example.com', 'piyopiy')
+guest = User('guest', 'guest@example.com', 'hufgahuga')
 
 db.session.add(admin)
 db.session.add(guest)
 db.session.commit()
-
-users = User.query.all()
-admin = User.query.filter_by(username='admin').first()
