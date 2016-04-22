@@ -1,7 +1,7 @@
 #!env python3
 
 from flask import Flask, Blueprint
-from flask import session, redirect, url_for, escape, request
+from flask import session, redirect, url_for, escape, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 import config
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def login_filter(f):
 @app.route('/')
 def index():
     if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
+        return render_template('index.html')
     return 'You are not logged in'
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -56,7 +56,6 @@ app.secret_key='hogehoge'
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
-
 
 from app.admin.views import admin
 app.register_blueprint(admin)
