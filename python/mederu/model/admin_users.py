@@ -12,7 +12,6 @@ class AdminUser(db.Model):
         self.password = password
 
     def add(self):
-        db.create_all()
         db.session.add(self)
 
     def __repr__(self):

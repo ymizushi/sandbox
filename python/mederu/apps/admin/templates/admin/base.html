@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Showcases a horizontal menu that hides at
- small window widths, and which scrolls when revealed.">
+<meta name="description" content="めでる管理ツール">
 {% block title %}
-    <title>愛でる</title>
+    <title>めでる管理ツール</title>
 {% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
+<link rel="stylesheet" href="{{ url_for('.static', filename='css/pure-min.css') }}">
 </head>
 <body>
 
@@ -167,13 +166,18 @@
 
 <div class="custom-menu-wrapper">
     <div class="pure-menu custom-menu custom-menu-top">
-        <a href="#" class="pure-menu-heading custom-menu-brand">愛でる</a>
+        <a href="#" class="pure-menu-heading custom-menu-brand">愛でる管理ツール</a>
         <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
     </div>
     <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
         <div class="custom-menu-screen"></div>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="/community" class="pure-menu-link">コミュニティ一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/users" class="pure-menu-link">ユーザ一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/admin_users" class="pure-menu-link">管理者ユーザ一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/tweets" class="pure-menu-link">tweet一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/works" class="pure-menu-link">作品一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/tags" class="pure-menu-link">タグ一覧</a></li>
+            <li class="pure-menu-item"><a href="/admin/characters" class="pure-menu-link">キャラクター一覧</a></li>
         </ul>
     </div>
 </div>

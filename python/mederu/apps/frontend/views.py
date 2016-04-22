@@ -1,12 +1,12 @@
-from flask import Blueprint, current_app
+from flask import Blueprint
 from flask import session, redirect, url_for, request, render_template
 
-frontend = Blueprint('frontend', __name__, url_prefix='/frontend', template_folder='templates')
+frontend = Blueprint('frontend', __name__, url_prefix='/frontend', template_folder='templates', static_folder='static')
 
 @frontend.route('/')
-def index():
+def frontend_index():
     if 'username' in session:
-        return render_template('index.html')
+        return render_template('frontend/index.html')
     return 'You are not logged in'
 
 @frontend.route('/login', methods=['GET', 'POST'])

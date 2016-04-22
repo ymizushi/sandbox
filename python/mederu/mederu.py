@@ -10,14 +10,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key='hogehoge'
 
+@app.route('/')
+def index():
+    return "top"
+
 db = SQLAlchemy(app)
-# import model.users
+import model.users
+import model.admin_users
+import model.characters
 # 
+import apps.admin.views
+app.register_blueprint(apps.admin.views.admin)
+
 import apps.frontend.views
 app.register_blueprint(apps.frontend.views.frontend)
 
-import apps.admin.views
-app.register_blueprint(apps.admin.views.admin)
 
 
 if __name__ == "__main__":
