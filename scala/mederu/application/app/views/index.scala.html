@@ -1,7 +1,43 @@
-@(message: String)
+@(common: mederu.application.component.Common.type)
 
-@main("Welcome to Play") {
+<!DOCTYPE html>
+<html lang="ja">
 
-    @play20.welcome(message)
+@views.html.header(common)
 
-}
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/"><span class="color-highlight">@common.title.head</span>@common.title.tail</a>
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    <li class="active"><a href="/login">ログイン</a></li>
+                    <li><a href="/works">作品一覧</a></li>
+                    <li><a href="/works/1">作品別ページ</a></li>
+                    <li><a href="/works/1/characters">作品別キャラクタ一覧ページ</a></li>
+                    <li><a href="/works/1/characters/1">作品別キャラクタページ</a></li>
+                    <li><a href="/characters">キャラクター一覧ページ</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+<div class="container">
+    <hr>
+    <footer class="row">
+        <p>@common.copyright<br></p>
+    </footer>
+</div><!-- /container -->
+
+@views.html.include_js()
+
+</body>
+</html>
+

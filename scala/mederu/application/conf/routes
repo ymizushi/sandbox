@@ -3,8 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                                mederu.application.controllers.Main.index
-
+GET     /                                         mederu.application.controllers.Main.index
+GET     /works                                    mederu.application.controllers.works.ListWorks.index
+GET     /works/:workId                            mederu.application.controllers.works.Work.index(workId: Long)
+GET     /works/:workId/characters                mederu.application.controllers.works.characters.ListCharacters.index(workId: Long)
+GET     /works/:workId/characters/:characterId  mederu.application.controllers.works.characters.Character.index(workId: Long, characterId: Long)
 
 # Admin Page
 GET     /admin                           mederu.application.admin.controllers.Main.index

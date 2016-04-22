@@ -6,6 +6,6 @@ object DIRegistry {
   lazy val AdminUserRepository = MySQLAdminUserRepository
   lazy val UserRepository = MySQLUserRepository
   lazy val CharacterRepository = MySQLCharacterRepository
-  lazy val workRepository = MySQLWorkRepository
+  lazy val WorkRepository = MySQLWorkRepository
 }
 
