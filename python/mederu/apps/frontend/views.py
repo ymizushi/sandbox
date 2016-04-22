@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask import session, redirect, url_for, request, render_template
 
 frontend = Blueprint('frontend', __name__, url_prefix='/frontend', template_folder='templates')

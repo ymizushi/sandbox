@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template
 from jinja2 import TemplateNotFound
-# from model.users import User
-admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
+admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
+
+import model.users
 
 @admin.route('/')
 def index():
@@ -17,12 +18,14 @@ def admin_users():
     except TemplateNotFound:
         abort(404)
 
+def create_user():
+    user = model.users.User('hoge', 'admin@example.com', 'hogehoge')
+    user.add()
 
 @admin.route('/users')
 def users():
-    # users = User.query.all()
-    kj
-    return render_template('users.html')
+    users = model.users.User.query.all()
+    return render_template('users.html', users=users)
 
 @admin.route('/characters')
 def characters():
