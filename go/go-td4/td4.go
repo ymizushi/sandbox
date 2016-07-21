@@ -101,8 +101,6 @@ func (t *TD4) mainExec(commandArray []uint8) {
     }
 }
 
-
-
 func main() {
     td4 := &TD4{
         a: 0,
@@ -113,7 +111,6 @@ func main() {
         pc: 0,
     }
 
-    // read file
     file, err := os.Open("test.bin")
     if err != nil {
         fmt.Println("err:", err)
@@ -130,12 +127,7 @@ func main() {
             fmt.Println("convertError:", convertError)
             return
         }
-        // 初回にゴミデータが取得されてしまうので、直しておく
         array = append(array, val)
     }
     td4.mainExec(array)
-
-    // result, carry := td4.a.add(15)
-    // fmt.Printf("result: %v\n", result)
-    // fmt.Printf("carry: %v\n", carry)
 }
