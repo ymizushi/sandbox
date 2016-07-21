@@ -88,7 +88,7 @@ func (t *TD4) exec(command uint8) {
             return
     }
     t.pc += 1
-    return 
+    return
 }
 
 func (t *TD4) mainExec(commandArray []uint8) {
@@ -102,6 +102,10 @@ func (t *TD4) mainExec(commandArray []uint8) {
 }
 
 func main() {
+    if len(os.Args) <= 1 {
+        fmt.Printf("usage: ./td4 {target binary file}\n")
+        os.Exit(1)
+    }
     td4 := &TD4{
         a: 0,
         b: 0,
@@ -111,7 +115,7 @@ func main() {
         pc: 0,
     }
 
-    file, err := os.Open("test.bin")
+    file, err := os.Open(os.Args[1])
     if err != nil {
         fmt.Println("err:", err)
         return
