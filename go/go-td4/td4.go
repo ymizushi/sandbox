@@ -19,7 +19,7 @@ const (
    MOV_A_Im = 3
    MOV_B_Im = 7
    MOV_A_B = 1
-   MOV_B_B = 4
+   MOV_B_A = 4
    ADD_A_Im = 0
    ADD_B_Im = 5
    IN_A = 2
@@ -42,7 +42,6 @@ type TD4 struct {
 func (t *TD4) exec(command uint8) {
     op := (uint4)(command & 240) >> 4
     im := (uint4)(command & 15)
-    fmt.Printf("op:%v, im:%v\n", op, im)
 
     switch op {
         case MOV_A_Im:
@@ -54,18 +53,15 @@ func (t *TD4) exec(command uint8) {
         case MOV_A_B:
             t.a = t.b
             t.carry = 0
-        case MOV_A_B:
-            t.a = t.b
-            t.carry = 0
         case MOV_B_A:
             t.b = t.a
             t.carry = 0
         case ADD_A_Im:
-            result, carry = t.a.add(im)
+            result, carry := t.a.add(im)
             t.a = result
             t.carry = carry
         case ADD_B_Im:
-            result, carry = t.b.add(im)
+            result, carry := t.b.add(im)
             t.b = result
             t.carry = carry
         case IN_A:
@@ -83,15 +79,28 @@ func (t *TD4) exec(command uint8) {
         case JMP_Im:
             t.pc = im
             t.carry = 0
+            return
         case JNC_Im:
             if t.carry == 0 {
-                
-            } else {
+                t.pc = im
             }
+            t.carry = 0
+            return
     }
     t.pc += 1
-    fmt.Printf("td4: %v\n", t)
+    return 
 }
+
+func (t *TD4) mainExec(commandArray []uint8) {
+    for ;; {
+        t.exec(commandArray[t.pc])
+        fmt.Printf("td4: %v\n", t)
+        if int(t.pc) == len(commandArray) {
+            break
+        }
+    }
+}
+
 
 
 func main() {
@@ -112,6 +121,7 @@ func main() {
     }
 
     b := make([]uint8, 1)
+    array := make([]uint8, 0)
     var r error
     for r=nil;r==nil;_, r = file.Read(b) {
         var val uint8
@@ -121,9 +131,9 @@ func main() {
             return
         }
         // 初回にゴミデータが取得されてしまうので、直しておく
-        fmt.Println("read data:", val)
-        td4.exec(val)
+        array = append(array, val)
     }
+    td4.mainExec(array)
 
     // result, carry := td4.a.add(15)
     // fmt.Printf("result: %v\n", result)
