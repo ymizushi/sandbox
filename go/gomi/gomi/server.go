@@ -15,8 +15,9 @@ func NewServer(port string) *Server {
 
 func (server *Server) Dispatch(str string, fn func() (int, string) ) {
     http.HandleFunc(str, func (w http.ResponseWriter, r *http.Request) {
-        _, content := fn()
-      fmt.Fprintf(w, content)
+        status, content := fn()
+        w.WriteHeader(status)
+        fmt.Fprintf(w, content)
   })
 }
 
