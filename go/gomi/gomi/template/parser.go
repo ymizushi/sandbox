@@ -1,11 +1,12 @@
-package template
+package main
 
-
-interface Parser {
+type Parser interface {
+    Parse(c byte, params map[string]string) bool
 }
 
 type State struct {
-    State int
+    State StateType
+    Vars []byte
 }
 
 const (
@@ -21,9 +22,14 @@ const (
     END_BRACKET_CHARACTER = 125
 )
 
-func (p *Parser) Parse(c byte, params map[string]string) []byte {
-    swtich c {
+func (s *State) Parse(c byte, params map[string]string) ([]byte, error) {
+    switch c {
         case START_BRACKET_CHARACTER:
+            // 
     }
+    return nil, nil
+}
+
+func main() {
 
 }
