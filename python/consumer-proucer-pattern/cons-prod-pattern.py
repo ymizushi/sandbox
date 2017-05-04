@@ -20,22 +20,22 @@ class Table:
             return None
         else:
             food = self._foods.pop()
-            print(food)
+            print("ate:" + str(food))
             return food
 
     async def put(self, food):
-        self._foods += [food]
         await asyncio.sleep(1)
-        print("put food")
+        self._foods += [food]
+        print("put: " + str(food))
 
 class Consumer:
     def __init__(self, table):
         self._table = table
 
     async def run(self):
-        self._table.put(Food("Ikura"))
-        self._table.put(Food("Sake"))
-        self._table.put(Food("Maguro"))
+        await self._table.put(Food("Ikura"))
+        await self._table.put(Food("Sake"))
+        await self._table.put(Food("Maguro"))
         await self._table.put(Food("Tama"))
 
 class Producer:
@@ -43,10 +43,10 @@ class Producer:
         self._table = table
 
     async def run(self):
-        self._table.eat()
-        self._table.eat()
-        self._table.eat()
-        self._table.eat()
+        await self._table.eat()
+        await self._table.eat()
+        await self._table.eat()
+        await self._table.eat()
         await self._table.eat()
 
 if __name__ == '__main__':
@@ -54,5 +54,6 @@ if __name__ == '__main__':
     producer = Producer(table)
     consumer = Consumer(table)
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(producer.run())
-    loop.run_until_complete(consumer.run())
+    asyncio.ensure_future(producer.run())
+    asyncio.ensure_future(consumer.run())
+    loop.run_forever()
