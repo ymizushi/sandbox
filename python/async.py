@@ -22,6 +22,18 @@ async def get_and_post():
     print(get_result)
     print(post_result)
 
+def loop_x(list):
+    for i in list:
+        print(i)
+        yield i
+
+def loop(list):
+    for i in list:
+        yield from loop_x(i)
+
+
+for i in foo():
+    print(i)
 
 # asyncio.ensure_future(get_and_post())
-loop.run_until_complete(get_and_post())
+# loop.run_until_complete(get_and_post())
