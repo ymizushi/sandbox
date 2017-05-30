@@ -5,6 +5,13 @@ class Tokenizer(val tokenString: String) {
     }
 }
 
+enum class TokenType {
+    BRACKET_START,
+    PLUS,
+    BRACKET_END,
+    NUMBER,
+}
+
 class Token(val s: String) {
     fun type(): TokenType {
         when (s) {
@@ -24,16 +31,16 @@ class Token(val s: String) {
         return TokenType.NUMBER
     }
 
-    fun eval(): Any {
-        when (this.type()) {
-            TokenType.NUMBER -> {
-                return s.toInt()
-            }
-            else -> {
-                return s
-            }
-        }
-    }
+//    fun <T>toValue(): Value {
+//        when (this.type()) {
+//            TokenType.NUMBER -> {
+//                return Value<String>(s)
+//            }
+//            else -> {
+//                return Value<String>(s)
+//            }
+//        }
+//    }
 
     fun isNumber(s: String): String {
         try {
@@ -45,41 +52,52 @@ class Token(val s: String) {
     }
 }
 
-enum class TokenType {
-    BRACKET_START,
-    PLUS,
-    BRACKET_END,
-    NUMBER,
+interface Value
+class NumberValue(v: Int): Value
+class StringValue(v: String): Value
+
+interface Node {
+    fun eval(): Value
 }
 
-class Node() {
-    val children: MutableList<Node> = MutableList<Node>()
-    fun add(node: Node) {
+
+abstract class Tree : Node {
+    val children = mutableListOf<Node>()
+
+    fun addChildren(node: Node) {
         children.add(node)
     }
 }
 
+class PlusTree: Tree() {
+    fun eval(): Value {
+    }
+
+}
+
+
 class Parser {
     fun parse(tokenList: List<Token>, node: Node?): Node? {
         for ((index, token) in tokenList.withIndex()) {
-            when(token.type()) {
+            when (token.type()) {
                 TokenType.BRACKET_START -> {
                     if (node == null) {
-                        return this.parse(tokenList.subList(index+1, tokenList.size-1), node)
+                        return this.parse(tokenList.subList(index + 1, tokenList.size - 1), Tree())
                     } else {
-                        val newNode = Node()
-                        node.add(newNode)
-                        return this.parse(tokenList.subList(index+1, tokenList.size-1), newNode)
+                        val newNode = Tree()
+                        node.addChildren(newNode)
+                        return this.parse(tokenList.subList(index + 1, tokenList.size - 1), newNode)
                     }
                 }
                 TokenType.BRACKET_END -> {
                     return node
                 }
                 else -> {
-                    node.add(token)
+                    node?.addChildren(token)
                 }
             }
         }
+        return node
     }
 }
 
@@ -87,5 +105,6 @@ fun main(args: Array<String>) {
     val input = "( + 1 2 3 )"
     val tokenizer = Tokenizer(input)
     val tokenList = tokenizer.tokenize()
-    print(tokenList)
+    val node = Parser().parse(tokenList, null)
+    print(node.eval())
 }
