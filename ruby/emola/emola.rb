@@ -6,7 +6,7 @@ class Tokenizer
     def tokenize
         tokens = @text.split(" ").map {|s|
             s.delete(" ")
-        }.map { |s|
+        }.map {|s|
             Token.new(s)
         }
     end
