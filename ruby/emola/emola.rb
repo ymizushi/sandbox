@@ -27,20 +27,6 @@ class Token
         @type = self.get_type
     end
 
-    def eval 
-        case @type
-        when TokenType::START_BRACKET then
-            "("
-        when TokenType::END_BRACKET then
-            ")"
-        when TokenType::PLUS then
-            "+"
-        when TokenType::NUMBER then
-            @s.to_i
-        else
-        end
-    end
-
     def get_type
         if @s == "("
             TokenType::START_BRACKET
@@ -52,6 +38,16 @@ class Token
             TokenType::PLUS
         else 
         end
+    end
+end
+
+class Value
+    def initialize v
+        @v =v
+    end
+
+    def eval
+        @v
     end
 end
 
@@ -68,10 +64,10 @@ class Parser
             when TokenType::END_BRACKET then
                 return node
             when TokenType::NUMBER then
-                node.add(token)
+                node.add(Value.new(token.s.to_i))
                 return self.parse(tokens[index+1, tokens.length], node)
             when TokenType::PLUS then
-                node.add(token)
+                node.add(Value.new(token.s))
                 return self.parse(tokens[index+1, tokens.length], node)
             else
             end
@@ -99,7 +95,7 @@ class Node
     end
 end
 
-text = "( + 2 3 4 5 )"
+text = "(+ 1 2 3 ( + 2 3 4 5 ) )"
 tokens = Tokenizer.new(text).tokenize
 node = Parser.new.parse(tokens, nil)
 p node.eval
