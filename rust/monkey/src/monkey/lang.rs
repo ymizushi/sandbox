@@ -1,36 +1,46 @@
 pub enum TokenType {
+    ILLEGAL,
+    EOF,
+    IDENT,
+    INT,
+    ASSIGN,
+    PLUS,
+    COMMA,
+    SEMICOLON,
+    LPAREN,
+    RPAREN,
+    LBRACE,
+    RBRACE,
+    FUNCTION,
     LET,
-    UNKNOWN
+}
+
+pub enum Value {
+    Int(String),
+    Str(String),
+}
+
+pub struct Token {
+    pub token_type: TokenType,
+    pub value: Option<Value>,
 }
 
 impl TokenType {
-    pub fn to_string(&self) -> String {
-        return String::from("hoge");
-    }
     pub fn from_string(s: String) -> TokenType {
         match s.as_ref() {
-            "LET" => TokenType::LET,
-            _ => TokenType::UNKNOWN,
+            "let" => TokenType::LET,
+            "function" => TokenType::FUNCTION,
+            _ => TokenType::ILLEGAL
         }
     }
 }
 
-
-pub struct Token {
-    pub token_type: TokenType
+pub struct Parser<'a> {
+    pub tokens: &'a [Token]
 }
 
-impl Token {
-    pub fn to_string(&self) {
-        println!("token_type: {}", self.token_type.to_string());
-    }
-}
-
-
-pub struct Parser {}
-
-impl Parser {
-    pub fn println(&self) {
-        println!("piyopiyo");
+impl<'a> Parser<'a> {
+    pub fn parse(&self) {
+        return ()
     }
 }
