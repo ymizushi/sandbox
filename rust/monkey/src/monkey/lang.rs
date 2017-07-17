@@ -5,6 +5,7 @@ pub enum TokenType {
     INT,
     ASSIGN,
     PLUS,
+    MINUS,
     COMMA,
     SEMICOLON,
     LPAREN,
@@ -26,10 +27,19 @@ pub struct Token {
 }
 
 impl TokenType {
-    pub fn from_string(s: String) -> TokenType {
+    pub fn from_string (s: String) -> TokenType {
         match s.as_ref() {
+            "\n" => TokenType::EOF,
             "let" => TokenType::LET,
-            "function" => TokenType::FUNCTION,
+            "+" => TokenType::PLUS,
+            "-" => TokenType::MINUS,
+            "," => TokenType::COMMA,
+            ";" => TokenType::SEMICOLON,
+            "(" => TokenType::LPAREN,
+            ")" => TokenType::RPAREN,
+            "{" => TokenType::LBRACE,
+            "}" => TokenType::RBRACE,
+            "func" => TokenType::FUNCTION,
             _ => TokenType::ILLEGAL
         }
     }
@@ -41,6 +51,6 @@ pub struct Parser<'a> {
 
 impl<'a> Parser<'a> {
     pub fn parse(&self) {
-        return ()
+        return ();
     }
 }

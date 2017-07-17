@@ -2,12 +2,11 @@ mod monkey;
 use monkey::lang::{Parser, Token, TokenType};
 
 fn main() {
-    let token = Token {
-        token_type: TokenType::LET,
+    let tokens = [
+        Token {
+        token_type: TokenType::from_string(String::from("let")),
         value: None
-    };
-
-    let tokens = [token; 1];
+    }; 1];
 
     let parser = &Parser {tokens:&tokens};
     parser.parse();
