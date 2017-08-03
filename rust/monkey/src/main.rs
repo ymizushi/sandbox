@@ -1,6 +1,8 @@
 mod monkey;
 use monkey::lang::{Parser, Token, TokenType};
 
+use std::io;
+
 fn main() {
     let tokens = [
         Token {
@@ -19,5 +21,14 @@ fn main() {
         Some(n) => n*n,
         None => 1,
     };
-    println!("{:?}!", r);
+//    println!("{:?}!", r);
+
+    let mut input = String::new();
+    match io::stdin().read_line(&mut input) {
+        Ok(n) => {
+            println!("{} bytes read", n);
+            println!("{}", input);
+        }
+        Err(error) => println!("error: {}", error),
+    }
 }
