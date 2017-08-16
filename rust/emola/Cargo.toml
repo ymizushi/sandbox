@@ -1,0 +1,6 @@
+[package]
+name = "emola"
+version = "0.1.0"
+authors = ["ymizushi <mizushi@gmail.com>"]
+
+[dependencies]
