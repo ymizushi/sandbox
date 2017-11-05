@@ -1,5 +1,21 @@
 #include <stdio.h>
 
+#define HASH_SIZE 20
+
+struct HashTable {
+    int[HASH_SIZE] table;
+    struct HashTable *next;
+}
+
+int HashTable_get(int i) {
+}
+
+int HashTable_hash(HashTable *ht, int value) {
+    int key = value % HASH_SIZE
+    if (ht->table[key] != null) {
+
+    }
+}
 
 enum JsonValueType {
     Number,
