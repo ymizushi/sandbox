@@ -8,8 +8,15 @@ struct HashEntry {
 };
 
 struct HashTable {
-    struct HashEntry **entries;
+    (struct HashEntry *)[HASH_SIZE] entries;
 };
+
+struct HashTable *HashTable_new() {
+    struct HashTable * table = & struct HashTable {}
+    table.entries = {NULL};
+    return table;
+}
+
 
 int HashTable_hash(struct HashTable *table, int key) {
     int hash = key % HASH_SIZE;
@@ -23,6 +30,7 @@ int HashTable_hash(struct HashTable *table, int key) {
 
 int HashTable_set(struct HashTable *table, int key, int value) {
     int hash = HashTable_hash(table, key);
+    printf("%d", hash);
     if (hash == -1) {
         return -1;
     } else {
@@ -66,8 +74,11 @@ void print_json_value(struct JsonValue *v) {
 
 int main(int argc, char const* argv[])
 {
-    struct JsonValue js_value = {String, "hoge"};
-    print_json_value(&js_value);
+    struct HashEntry *entry = & (struct HashEntry) {5, 10};
+
+    struct HashTable *table = & (struct HashTable) { &entry };
+    HashTable_set(table, 4, 10);
+    // HashTable_get(table, 4);
     return 1;
 }
 
