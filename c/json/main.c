@@ -2,18 +2,42 @@
 
 #define HASH_SIZE 20
 
+struct HashEntry {
+    int key;
+    int value;
+};
+
 struct HashTable {
-    int[HASH_SIZE] table;
-    struct HashTable *next;
+    struct HashEntry **entries;
+};
+
+int HashTable_hash(struct HashTable *table, int key) {
+    int hash = key % HASH_SIZE;
+    for(;hash<HASH_SIZE;hash++) {
+        if (table->entries[hash]->key == key || table->entries[hash] == NULL) {
+            return hash;
+        } 
+    }
+    return -1;
 }
 
-int HashTable_get(int i) {
+int HashTable_set(struct HashTable *table, int key, int value) {
+    int hash = HashTable_hash(table, key);
+    if (hash == -1) {
+        return -1;
+    } else {
+      struct HashEntry *entry = & (struct HashEntry){key, value};
+      table->entries[hash] = entry;
+      return 0;
+    }
 }
 
-int HashTable_hash(HashTable *ht, int value) {
-    int key = value % HASH_SIZE
-    if (ht->table[key] != null) {
-
+struct HashEntry* HashTable_get(struct HashTable *table, int key) {
+    int hash = HashTable_hash(table, key);
+    if (hash == -1) {
+        return NULL;
+    } else {
+      return table->entries[hash];
     }
 }
 
