@@ -1,0 +1,13 @@
+{
+  "name": "rx-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "dependencies": {
+    "rxjs": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}
