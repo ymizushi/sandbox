@@ -25,7 +25,6 @@ class Client(remote: InetSocketAddress, listener: ActorRef) extends Actor {
       listener ! "connect failed"
       context stop self
 
-
     case c @ Connected(remote, local) => 
       listener ! c
       val connection = sender()
