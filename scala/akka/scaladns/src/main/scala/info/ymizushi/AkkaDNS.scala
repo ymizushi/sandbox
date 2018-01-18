@@ -1,47 +1,48 @@
-import akka.actor.{ Actor, ActorRef, Props }
-import akka.io.{ IO, Tcp }
-import akka.util.ByteString
 import java.net.InetSocketAddress
 
-object AkkaDNS {
-  def main(args: Array[String]) = {
-    println("hoge")
+import akka.actor.{ActorSystem, Props, ActorLogging, Actor}
+import akka.io.{IO, Tcp}
+
+class Handler extends Actor with ActorLogging {
+  import Tcp._
+
+  def receive = {
+    case Received(data) => {
+      println(data)
+      sender() ! Write(data)
+    }
+    case PeerClosed => context stop self
   }
 }
 
-object Client {
-  def props(remote: InetSocketAddress, replies: ActorRef) = 
-    Props(classOf[Client], remote, replies)
-}
-
-class Client(remote: InetSocketAddress, listener: ActorRef) extends Actor {
+/**
+ * クライアントの接続を受け入れるサーバー
+ */
+class Server(bindAddress: InetSocketAddress) extends Actor with ActorLogging {
   import Tcp._
   import context.system
 
-  IO(Tcp) ! Connect(remote)
+  IO(Tcp) ! Bind(self, bindAddress)
 
   def receive = {
-    case CommandFailed(_: Connect) => 
-      listener ! "connect failed"
-      context stop self
+    case Bound(localAddress) =>
+      log.info("bound on {}...", localAddress)
 
-    case c @ Connected(remote, local) => 
-      listener ! c
-      val connection = sender()
-      connection ! Register(self)
-      context become {
-        case data: ByteString => 
-          connection ! Write(data)
-        case CommandFailed(w: Write) =>
-          listener ! "write failed"
-        case Received(data) => 
-          listener ! data
-        case "close" => 
-          connection ! Close
-        case _: ConnectionClosed =>
-          listener ! "connection closed"
-          context stop self
-      }
+    case Connected(remote, local) =>
+      log.info("accepted peer: {}", remote)
+      val handler = context.actorOf(Props[Handler])
+      sender() ! Register(handler)
+
+    case CommandFailed(_: Bind) =>
+      log.error("bind failed")
+      context stop self
   }
 }
 
+object AkkDNS {
+  def main(args: Array[String]): Unit = {
+    val system = ActorSystem("AkkaDNS")
+    val bindAddress = new InetSocketAddress("localhost", 12345)
+    system.actorOf(Props(classOf[Server], bindAddress))
+  }
+}
