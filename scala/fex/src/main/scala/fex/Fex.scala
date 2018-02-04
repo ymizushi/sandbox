@@ -8,6 +8,9 @@ import scalafx.scene.Scene
 import scalafx.scene.control.{Label, Menu, MenuBar, MenuItem, SeparatorMenuItem}
 import scalafx.scene.layout.{BorderPane, VBox}
 import scalafx.scene.paint.Color
+import collection.JavaConversions._
+
+import org.jutils.jprocesses.JProcesses
 
 object Fex extends JFXApp {
 
@@ -22,7 +25,10 @@ object Fex extends JFXApp {
       }
     )
 
-    onShowing = handle {printEvent("on showing")}
+    onShowing = handle {
+     printEvent("on showing")
+     printProcessList
+    }
     onShown = handle {printEvent("on shown")}
     onHiding = handle {printEvent("on hiding")}
     onHidden = handle {printEvent("on hidden")}
@@ -51,5 +57,12 @@ object Fex extends JFXApp {
 
   def printEvent(eventStr: String)() {
     history.children += new Label(eventStr)
+  }
+
+  def printProcessList(): Unit = {
+    val l = JProcesses.getProcessList()
+    l.map { processInfo =>
+      println("Process Name: " + processInfo.getName())
+    }
   }
 }
