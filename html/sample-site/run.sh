@@ -1,1 +1,2 @@
+./build.sh
 http-server
