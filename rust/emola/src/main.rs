@@ -4,7 +4,6 @@ fn main() {
   println!("{}", join("hoge", "piyo"));
 }
 
-
 fn join(left: &str, right: &str) -> String {
   let mut s = String::new();
   s.push_str(left);

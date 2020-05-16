@@ -23,14 +23,15 @@ case class Value[A](v: A)
 
 class Number(v: Int) extends Value {
   def plus(v: Number): Number =
-    new Number(this.v) 
-
+    new Number(this.v)
 }
 
 class Str(s: String) extends Value
 
 class Plus(numbers: Seq[Number]) extends Expression[Number]  {
-  def eval: Number = this.numbers.foldLeft(new Number(0))(_ plus _)
+  def eval: Number = {
+    this.numbers.foldLeft(new Number(0))(_ plus _)
+  }
 }
 
 // case class Minus(numbers: List[Number]) extends Expression {

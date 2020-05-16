@@ -6,3 +6,4 @@ node_modules
 npm-debug.log
 go/scripten/scripten
 **/*.idea
+.metals/
