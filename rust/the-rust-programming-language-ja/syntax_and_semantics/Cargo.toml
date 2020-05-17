@@ -1,5 +1,5 @@
 [package]
-name = "emola"
+name = "syntax_and_semantics"
 version = "0.1.0"
 authors = ["ymizushi <mizushi@gmail.com>"]
 edition = "2018"
