@@ -28,12 +28,81 @@ fn variable_binding() {
 
 
 fn function() {
-    foo();
     print_number(32);
     print_sum(32, 64);
 }
 
-fn foo() {
+fn ownership()  {
+   let _s = "hello";
+   let mut s = String::from("hello");
+   s.push_str(", world!");
+   println!("{}", s);
+
+   let x = 5;
+   let _y = x;
+
+   let s1 = String::from("hello");
+   let s2 = s1.clone();
+
+   println!("s1 = {}, s2 = {}", s1, s2);
+
+   let x = 5;
+   let y = x;
+
+   println!("x = {}, y = {}", x, y);
+   let mut s = "some_string".to_string();
+   s = takes_ownership(s);
+   takes_ownership(s);
+
+   let x = 5;
+   make_copy(x);
+
+   let _s1 = gives_ownership();
+   let s2 = "hello".to_string();
+   let _s3 = takes_and_gives_back(s2);
+
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("The length of '{}' is {}.", s1, len);
+
+    {
+        let mut s = String::from("hello");
+        {
+            let _r1 = &s;
+            let _r2 = &s;
+            println!("{}", _r1);
+            println!("{}", _r2);
+        }
+        let _r3 = &mut s;
+        println!("{}", _r3);
+    }
+
+    {
+        let _reference_to_nothing = dangle();
+    }
+}
+
+fn dangle() -> String {
+    let s = String::from("hello");
+    s
+}
+
+fn takes_ownership(some_string: String) -> String {
+    println!("{}", some_string);
+    some_string
+}
+
+fn gives_ownership() -> String {
+    let some_string = String::from("hello");
+    some_string
+}
+
+fn takes_and_gives_back(a_string: String) -> String {
+    a_string
+}
+
+fn make_copy(some_integer: i32) {
+    println!("{}", some_integer);
 
 }
 
@@ -52,6 +121,10 @@ fn add_one(x: i32) -> i32 {
 // fn diverges() -> ! {
 //     panic!("This function never returns!");
 // }
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
 
 fn primitive() {
     let _x = true;
@@ -106,5 +179,6 @@ fn main() {
 
     primitive();
 
+    ownership();
 }
 
