@@ -54,14 +54,14 @@ fn add_one(x: i32) -> i32 {
 // }
 
 fn primitive() {
-    let x = true;
-    let y: bool = false;
+    let _x = true;
+    let _y: bool = false;
 
-    let x = 'x';
-    let two_hearts = '♥';
+    let _x = 'x';
+    let _two_hearts = '♥';
 
-    let a = [1, 2, 3];
-    let mut m = [1, 2, 3];
+    let _a = [1, 2, 3];
+    let mut _m = [1, 2, 3];
     let a = [0; 20];
     println!("a has {} elements", a.len());
 
@@ -69,26 +69,28 @@ fn primitive() {
     println!("The second name is: {}", names[1]);
 
     let a: [i32; 5] = [0, 1, 2, 3, 4];
-    let complete: &[i32] = &a[..];
-    let middle: &[i32] = &a[1..4];
+    let _complete: &[i32] = &a[..];
+    let _middle: &[i32] = &a[1..4];
 
-    let x = (1, "hello");
-    let x: (i32, &str) = (1, "hello");
+    let _x = (1, "hello");
+    let _x: (i32, &str) = (1, "hello");
 
-    let mut x = (1, 2);
+    let mut _x = (1, 2);
     let y = (2, 3);
-    x = y;
+    _x = y;
 
-    let (x, y, z) = (1, 2, 3);
+    let (x, _y, _z) = (1, 2, 3);
     println!("x is {}", x);
 
     let tuple = (1, 2, 3);
     let x = tuple.0;
-    let y = tuple.1;
-    let z = tuple.2;
+    let _y = tuple.1;
+    let _z = tuple.2;
 
     println!("x is {}", x);
 }
+
+
 
 fn main() {
     variable_binding();
