@@ -22,6 +22,7 @@ fn variable_binding() {
     let x = x;
     let y = 4;
     println!("{}, {}", x, y);
+    println!("{}, {}", x, y);
     let y = "I can also be bound to text!";
     println!("{}, {}", x, y);
 }
