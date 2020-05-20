@@ -27,20 +27,18 @@ mod emola {
         }
     }
 
-    pub fn parse(tokens: Vec<Token>) -> AST  {
-        let mut current_ast: AST;
-        for t in tokens {
-            let ast = match t {
+    pub fn parse(tokens: Vec<Token>) -> Vec<AST> {
+        tokens.into_iter().map(|t| {
+            let token: AST = match t {
                 Token::Plus => AST::Leaf(Token::Plus),
                 Token::Minus => AST::Leaf(Token::Minus),
                 Token::BracketStart => AST::Tree(vec![]),
-                Token::BracketEnd => continue,
+                Token::BracketEnd => AST::Leaf(Token::Plus),
                 Token::Number(i) => AST::Leaf(Token::Number(i)),
-                Token::Unknown => continue,
+                Token::Unknown => AST::Leaf(Token::Plus),
             };
-            current_ast = ast;
-        }
-        current_ast
+            token
+        }).collect()
     }
 }
 
