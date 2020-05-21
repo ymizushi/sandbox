@@ -1,0 +1,10 @@
+[package]
+name = "quick-xml-sample"
+version = "0.1.0"
+authors = ["ymizushi <mizushi@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+quick-xml = "0.18.1"
