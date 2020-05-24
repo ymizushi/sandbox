@@ -1,20 +1,26 @@
-use quick_xml::Writer;
-use quick_xml::events::{Event, BytesEnd, BytesStart};
-use std::io::Cursor;
-use std::result::Result;
+use svg::Document;
+use svg::node::element::Path;
+use svg::node::element::Circle;
+use svg::node::element::path::Data;
 
 fn main() {
-	let mut writer = Writer::new(Cursor::new(Vec::new()));
-    let mut elem = BytesStart::owned(b"svg".to_vec(), "svg".len());
-    elem.push_attribute(("width", "100"));
-    elem.push_attribute(("height", "100"));
-    if let Result::Err(e) =  writer.write_event(Event::Start(elem)) {
-        panic!("{}", e)
-    }
-    if let Result::Err(e) =  writer.write_event(Event::End(BytesEnd::borrowed(b"svg"))) {
-        panic!("{}", e)
-    }
-	let result: Vec<u8> = writer.into_inner().into_inner();
-    let s = result.clone().into_iter().map(|u| { char::from(u) }).collect::<String>();
-    println!("{}", s);
+    
+    let data = Data::new()
+        .move_to((10, 10))
+        .line_by((0, 50))
+        .line_by((50, 0))
+        .line_by((0, -50))
+        .close();
+    
+    let path = Path::new()
+        .set("fill", "none")
+        .set("stroke", "black")
+        .set("stroke-width", 3)
+        .set("d", data);
+    
+    let document = Document::new()
+        .set("viewBox", (0, 0, 70, 70))
+        .add(path);
+    
+    svg::save("image.svg", &document).unwrap();
 }
