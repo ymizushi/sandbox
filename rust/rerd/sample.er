@@ -1,0 +1,12 @@
+[Person]
+*id
+name
+height
+weight
++team_id
+
+[Team]
+*id
+name
+
+Person *--1 Team
