@@ -5,15 +5,16 @@ use std::result::Result;
 
 fn main() {
 	let mut writer = Writer::new(Cursor::new(Vec::new()));
-    let mut elem = BytesStart::owned(b"my_elem".to_vec(), "my_elem".len());
-    elem.push_attribute(("my-key", "some value"));
+    let mut elem = BytesStart::owned(b"svg".to_vec(), "svg".len());
+    elem.push_attribute(("width", "100"));
+    elem.push_attribute(("height", "100"));
     if let Result::Err(e) =  writer.write_event(Event::Start(elem)) {
         panic!("{}", e)
     }
-    if let Result::Err(e) =  writer.write_event(Event::End(BytesEnd::borrowed(b"my_elem"))) {
+    if let Result::Err(e) =  writer.write_event(Event::End(BytesEnd::borrowed(b"svg"))) {
         panic!("{}", e)
     }
-	let result = writer.into_inner().into_inner();
-    let s: String = result.into_iter().map(|u| { char::from(u) }).collect();
+	let result: Vec<u8> = writer.into_inner().into_inner();
+    let s = result.clone().into_iter().map(|u| { char::from(u) }).collect::<String>();
     println!("{}", s);
 }
