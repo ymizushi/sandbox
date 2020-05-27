@@ -351,16 +351,9 @@ dependencies = [
 name = "rerd"
 version = "0.1.0"
 dependencies = [
- "rustc-ap-graphviz",
  "svg",
  "yew",
 ]
-
-[[package]]
-name = "rustc-ap-graphviz"
-version = "405.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ceee9364187994ffc663cb7b88018aac7ad11ee282e6673e0631c86d5ba5653c"
 
 [[package]]
 name = "ryu"

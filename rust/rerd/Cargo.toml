@@ -10,4 +10,3 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 svg = "0.8.0"
 yew = "0.16"
-rustc-ap-graphviz = "405.0.0"
