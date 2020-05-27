@@ -15,6 +15,10 @@ impl<'a> Env<'a> {
         }
     }
 
+    pub fn update(&self, key: String, value: String)  {
+
+    }
+
     pub fn find(&self, key: String) -> Option<&Env<'a>> {
         match self.env.get(&key) {
             Some(_) => Some(&self),
