@@ -352,7 +352,6 @@ name = "rerd"
 version = "0.1.0"
 dependencies = [
  "svg",
- "wasm-bindgen",
  "yew",
 ]
 
