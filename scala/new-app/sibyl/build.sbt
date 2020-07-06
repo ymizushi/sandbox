@@ -3,7 +3,9 @@ organization := "io.github.ymizushi"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val entities = (project in file("entities"))
+lazy val usecases = (project.dependsOn(entities) in file("usecases"))
+lazy val root = (project.dependsOn(entities, usecases) in file(".")).aggregate(entities, usecases).enablePlugins(PlayScala)
 
 scalaVersion := "2.13.3"
 
