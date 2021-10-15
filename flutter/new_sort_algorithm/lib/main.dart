@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
-
-extension Sortable on List<int> {
-  List<int> sort() {
-    var copiedList = [...this];
-    for (var i = 0; i < copiedList.length; i++) {
-      for (var j = 0; j < copiedList.length; j++) {
-        if (copiedList[i] < copiedList[j]) {
-          var temp = copiedList[i];
-          copiedList[i] = copiedList[j];
-          copiedList[j] = temp;
-        }
-      }
-    }
-    return copiedList;
-  }
-}
+import 'extensions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,16 +49,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _numbers = <int>[];
+  List<int> _numbers = [2, 12, 3, 12, 345, 10, 30];
 
   void _incrementCounter() {
     setState(() {
-      _number = sort(_numbers);
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _numbers = _numbers.nsort();
     });
   }
 
@@ -115,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$_numbers',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
