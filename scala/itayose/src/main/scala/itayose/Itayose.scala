@@ -1,4 +1,5 @@
 package itayose
+import scala.collection.immutable.HashMap
 
 case class Board (val orders: List[Order]) {
   def addOrder(order: Order): Board  = {
@@ -9,18 +10,24 @@ case class Board (val orders: List[Order]) {
     this
   }
 
-  def groupByPrice: 
-}
-
-object BoardTable {
-  def apply: BoardTable = {
-    new BoardTable(HashMap)
+  def groupByPrice: BoardTable = {
+    BoardTable(new HashMap[Price, BoardTableRow])
   }
 }
 
-class BoardTable(private val table: Map) {
+// object BoardTable {
+//   def apply: BoardTable = {
+//     new BoardTable(new HashMap[Price, BoardTableRow])
+//   }
+// }
 
-}
+case class BoardTable(private val table: Map[Price, BoardTableRow]) 
+
+case class BoardTableRow private (
+  val price: Price,
+  val numberOfBuyingStock: NumberOfStock,
+  val numberOfSellingStock: NumberOfStock,
+) 
 
 case class Order private (val tradingType: TradingType, val price: Price, val numberOfStock: NumberOfStock)
 
