@@ -6,9 +6,17 @@ import io.circe.syntax.EncoderOps
 import io.circe.generic.auto.exportEncoder
 
 object Main extends App {
+<<<<<<< HEAD
   case class Parts(s: Seq[String])
   val encoder: Exported[Encoder.AsObject[Parts]] = exportEncoder[Parts]
   val circuit = Parts(List("a", "b", "c", "d"))
   println(circuit.asJson)
+=======
+  println("Hello " |+| "Cats!")
+
+  def hoge: Int = {
+    1+ 1
+  }
+>>>>>>> 0a07a2102a0c9b8a742e5dd989cead717e5eba2e
 }
 
