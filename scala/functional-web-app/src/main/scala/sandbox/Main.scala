@@ -5,4 +5,9 @@ import cats.syntax.semigroup._
 
 object Main extends App {
   println("Hello " |+| "Cats!")
+
+  def hoge: Int = {
+    1+ 1
+  }
 }
+
