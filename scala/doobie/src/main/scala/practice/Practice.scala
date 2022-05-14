@@ -14,15 +14,6 @@ case class Country(code: String, name: String, population: Long)
 object  Practice {
     def main(args: Array[String]) = {
         println("hoge")
-
-        val xa = Transactor.fromDriverManager[IO](
-          "org.postgresql.Driver", "jdbc:postgresql:world", "postgres", ""
-        )
-
-        def find(n: String): ConnectionIO[Option[Country]] =
-          sql"select code, name, population from country where name = $n".query[Country].option
-        find("France").transact(xa).unsafeRunSync()
-
         H2App.run(Nil)
     }
 }
