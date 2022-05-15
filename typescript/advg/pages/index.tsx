@@ -2,6 +2,9 @@ import type { NextPage } from 'next'
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { Provider } from 'react-redux'
+import {store} from '../store'
+
 
 type Margin = {
   top: number;
@@ -29,9 +32,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <svg width={size.width} height={size.height} xmlns="http://www.w3.org/2000/svg">
-        <ADVGCanvas margin={margin} size={size}></ADVGCanvas>
-      </svg>
+      <Provider store={store}>
+        <svg width={size.width} height={size.height} xmlns="http://www.w3.org/2000/svg">
+          <ADVGCanvas margin={margin} size={size}></ADVGCanvas>
+        </svg>
+      </Provider>
     </>
   )
 }
