@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { Provider } from 'react-redux'
-import store from '../features/store'
+import {store} from '../features/store'
 import {Counter} from '../features/counter/Counter'
 
 

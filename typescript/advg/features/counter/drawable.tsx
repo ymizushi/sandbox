@@ -1,9 +1,12 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from './counterSlice'
+import { RootState } from '../store'
+import { push, pop } from './drawablesSlice'
+import { DrawablesState } from './drawablesSlice'
+import { Drawable } from '../../primitives/drawable'
 
 export function Counter() {
-  const count = useSelector((state: any) => state.counter.value )
+  const drawables = useSelector<RootState, Drawable[]>((state) => state.drawables.drawables )
   const dispatch = useDispatch()
 
   return (
