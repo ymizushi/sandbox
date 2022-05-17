@@ -1,4 +1,7 @@
-export class Point {
+import { Canvas } from "./canvas";
+import { Drawable } from "./drawable";
+
+export class Point implements Drawable{
     private _x: number;
     private _y: number;
 

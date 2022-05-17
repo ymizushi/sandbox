@@ -1,7 +1,8 @@
+import { Drawable } from './drawable';
 import {Point} from './point'
 import {Size} from './size'
 
-export class Rect {
+export class Rect implements Drawable {
     private _start: Point;
     private _size: Size;
 

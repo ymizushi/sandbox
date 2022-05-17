@@ -4,7 +4,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { Provider } from 'react-redux'
 import {store} from '../features/store'
-import {Counter} from '../features/counter/Counter'
+import {Drawable} from '../features/drawable/drawable'
 
 
 type Margin = {
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
         <svg width={size.width} height={size.height} xmlns="http://www.w3.org/2000/svg">
           <ADVGCanvas margin={margin} size={size}></ADVGCanvas>
         </svg>
-        <Counter />
+        <Drawable />
       </Provider>
     </>
   )

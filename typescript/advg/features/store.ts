@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterRedurcer from './counter/counterSlice'
+import drawablesRedurcer from './drawable/drawablesSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterRedurcer
-  }
+    drawables: drawablesRedurcer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
 
 export type RootState = ReturnType<typeof store.getState>
