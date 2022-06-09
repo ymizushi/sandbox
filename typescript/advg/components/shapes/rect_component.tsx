@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {Rect} from '../../primitives/rect'
 
 export const RectComponent = ({rect}: {rect: Rect}) => {
-  console.log(rect)
   return <rect
     style={
       {

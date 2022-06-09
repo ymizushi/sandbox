@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import { Provider } from 'react-redux'
 import {store} from '../features/store'
 import {Drawable} from '../features/drawable/drawable'
+import { start } from 'repl';
 
 
 type Margin = {
@@ -49,8 +50,28 @@ const ADVGCanvas = ({margin, size}: Props) => {
     startY: 0,
     endX: 0,
     endY: 0,
-    mouseClicked: false
+    mouseClicked: false,
+    mouseDragged: false,
   });
+  const [figuretype, setFigureType] = useState<string|null>(null)
+  const [drawablesState, setDrawablesState] = useState<{startX: number, startY: number, endX: number, endY: number}[]>([])
+
+  const drawRectComponent = (index:number, {startX, startY, endX, endY}: {startX: number, startY: number, endX: number, endY: number}) => {
+      return <rect
+        key={index}
+        style={
+          {
+            fill: `pink`
+          }
+        }
+        x={startX} 
+        y={startY} 
+        width={(endX-startX>=0) ? endX-startX : startX-endX}
+        height={endY-startY>=0 ? endY-startY: startY-endY}
+      />
+
+  }
+
   const mouseDown = useCallback(
     ( { clientX: startX, clientY: startY }: {clientX: number, clientY: number} ) => {
       console.log(`mouseDown: ${startX}, ${startY}`)
@@ -60,7 +81,8 @@ const ADVGCanvas = ({margin, size}: Props) => {
           startY: startY,
           endX: startX,
           endY: startY,
-          mouseClicked: true
+          mouseClicked: true,
+          mouseDragged: false
         };
       })
     },
@@ -77,7 +99,8 @@ const ADVGCanvas = ({margin, size}: Props) => {
           startY: beforeState.startY,
           endX: endX,
           endY: endY,
-          mouseClicked: false
+          mouseClicked: false,
+          mouseDragged: false
         };
       })
     },
@@ -86,16 +109,23 @@ const ADVGCanvas = ({margin, size}: Props) => {
 
   const mouseMove = useCallback(
     ( { clientX: x, clientY: y }: {clientX: number, clientY: number} ) => {
-      console.log(`mouseMove: ${x}, ${y}`)
 
       setClickState(beforeState => {
         if (beforeState.mouseClicked) {
+          console.log(`mouseclicked: ${x}, ${y}`)
+          console.log(drawablesState)
+          setDrawablesState(beforeDrawableState => {
+            const {startX, startY, endX, endY}= beforeState
+            beforeDrawableState.push({startX, startY, endX, endY})
+            return beforeDrawableState
+          })
           return {
             startX: beforeState.startX,
             startY: beforeState.startY,
             endX: x,
             endY: y,
-            mouseClicked: true
+            mouseClicked: true,
+            mouseDragged: true
           };
         } else {
           return {
@@ -103,7 +133,8 @@ const ADVGCanvas = ({margin, size}: Props) => {
             startY: beforeState.startY,
             endX: beforeState.endX,
             endY: beforeState.endY,
-            mouseClicked: false
+            mouseClicked: false,
+            mouseDragged: true
           };
         };
       })
@@ -161,6 +192,7 @@ const ADVGCanvas = ({margin, size}: Props) => {
         height={size.height-50}
       />
 
+      { drawablesState.map((e, i)=> drawRectComponent(i, e)) }
       <line x1={clickState.startX} y1={clickState.startY} x2={clickState.endX} y2={clickState.endY}
         style={
           {
