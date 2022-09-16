@@ -2,13 +2,28 @@
 
 int plus(int, int);
 int exec_callback(int (*)(int,int));
+void hello_world(void);
+void hello_shift(void);
 
 int
 main(void)
 {
-    int (*funcpointer)(int,int) = plus;
-// exec_callback(&funcpointer);
-    printf("hoge%d\n", funcpointer(5,3));
+    hello_world();
+    hello_shift();
+}
+
+void hello_world() {
+    char hello[] = "hello";
+    char *world  = "world";
+    printf("hello: %s\n", hello);
+    printf("world: %s\n", hello);
+}
+
+void hello_shift() {
+    int value = 0b10000000;
+    printf("value: %d\n", value);
+    printf("value: %d\n", value << 0);
+    printf("value: %d\n", value << 1);
 }
 
 
