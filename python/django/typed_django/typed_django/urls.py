@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from collections.abc import Sequence
+
+def hoge(name: str) -> str:
+    return 1
 
 urlpatterns = [
     path('admin/', admin.site.urls),
